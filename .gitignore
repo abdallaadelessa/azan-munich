@@ -1,0 +1,24 @@
+
+# Gradle and System
+*.iml
+.gradle
+/.idea/
+.idea/
+.DS_Store
+/build
+*/build
+
+# Android
+/androidApp/debug
+/androidApp/release
+/captures
+
+# TEMP
+build-cache
+local.properties
+
+## IOS
+iosApp/Podfile.lock
+.externalNativeBuild
+.cxx
+xcuserdata/

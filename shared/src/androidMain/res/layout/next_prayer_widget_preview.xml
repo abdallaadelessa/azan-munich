@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:minWidth="@dimen/next_prayer_widget_min_width"
+    android:minHeight="@dimen/next_prayer_widget_min_height"
+    android:orientation="vertical"
+    tools:ignore="HardcodedText,UselessParent,contentDescription">
+
+    <TextView
+        android:id="@+id/tvPrayerTime"
+        style="@style/WidgetDayTimeStyle"
+        android:layout_margin="0dp"
+        android:text="07:30"
+        android:textColor="@android:color/white"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tvPrayerName"
+        style="@style/WidgetDayNameStyle"
+        android:layout_margin="0dp"
+        android:text="Maghrib"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</LinearLayout>

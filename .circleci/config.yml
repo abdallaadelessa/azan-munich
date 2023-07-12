@@ -1,0 +1,250 @@
+# Use the latest 2.1 version of CircleCI pipeline process engine.
+# See: https://circleci.com/docs/2.0/configuration-reference
+version: 2.1
+
+#==============================> WorkFlows
+
+workflows:
+  version: 2
+  android:
+    jobs:
+      - android-build:
+          filters:
+            branches:
+              only:
+                - develop
+      - android-screenshots:
+          filters:
+            branches:
+              only:
+                - android-screenshots
+      - android-publish-beta:
+          filters:
+            branches:
+              only:
+                - beta
+#==============================> Jobs
+
+jobs:
+  android-build:
+    resource_class: large
+    docker:
+      - image: mingc/android-build-box:latest
+    working_directory: ~/azan_munich
+    steps:
+      - checkout_with_ssh_key
+      - create_keystore_file
+      - run:
+          name: Build debug & release and run unit tests
+          command: |
+            ./gradlew clean
+            ./gradlew :androidApp:assembleDebug
+            ./gradlew :androidApp:assembleDebugUnitTest
+            ./gradlew :androidApp:assembleRelease
+      - delete_keystore_file
+      - store_build_output
+
+  android-screenshots:
+    resource_class: large
+    machine:
+      image: android:202102-01
+    working_directory: ~/azan_munich
+    steps:
+      - checkout_with_ssh_key
+      - install_dependencies_needed_in_capturing_screen_shots
+      - create_keystore_file
+      - prepare_for_screen_shots
+      - download_latest_frames
+      - capture_screen_shots:
+          avdname: Nexus_5X
+          type: Nexus 5X
+          config: shot_phone
+      - capture_screen_shots:
+          avdname: Nexus_7
+          type: Nexus 7
+          config: shot_7inch
+      - capture_screen_shots:
+          avdname: Nexus_9
+          type: Nexus 9
+          config: shot_10inch
+      - delete_keystore_file
+      - commit_new_screen_shots
+      - store_artifacts:
+          path: androidApp/fastlane/metadata/android/de-DE/images
+
+  android-publish-beta:
+    resource_class: large
+    docker:
+      - image: mingc/android-build-box:latest
+        environment:
+          TAR_OPTIONS: --no-same-owner
+    working_directory: ~/azan_munich
+    steps:
+      - checkout_with_ssh_key
+      - create_keystore_file
+      - create_google_play_console_api_file
+      - commit_new_app_version
+      - run:
+          name: Build App Bundle
+          command: ./gradlew clean && ./gradlew :androidApp:bundleRelease
+      - run: cd androidApp && bundle install && bundle exec fastlane publish_beta
+      - delete_keystore_file
+      - delete_google_play_console_api_file
+      - store_build_output
+
+#==============================> Reusable Commands
+
+commands:
+  # Checkout the project
+  checkout_with_ssh_key:
+    steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "41:2e:21:f5:a6:78:dd:af:7a:0f:97:92:a9:6c:26:9f"
+      - checkout:
+          path: ~/azan_munich
+
+  # Create keystore from the environment variables
+  create_keystore_file:
+    steps:
+      - run: mkdir androidApp/keystore
+      - run: echo "$android_signing_keystore" | base64 --decode > androidApp/keystore/android_signing_keystore.jks
+
+  # Delete keystore
+  delete_keystore_file:
+    steps:
+      - run: rm -f androidApp/keystore/android_signing_keystore.jks || true
+
+  # Create play console api config json file
+  create_google_play_console_api_file:
+    steps:
+      - run: mkdir androidApp/playstore
+      - run: echo "$play_console_api_config" | base64 --decode > androidApp/playstore/play_console_api_config.json
+
+  # Delete play console api config json file
+  delete_google_play_console_api_file:
+    steps:
+      - run: rm -f androidApp/playstore/play_console_api_config.json || true
+
+  # Store output build folder (Debug + Release)
+  store_build_output:
+    steps:
+      - store_artifacts:
+          path: androidApp/build/outputs/
+
+  # Increment the app version code
+  commit_new_app_version:
+    steps:
+      - run:
+          name: Increment the app version code then commit and push it to remote
+          command: androidApp/scripts/commit_new_android_version_code.sh
+
+  #=======> Screen Shots
+
+  # Screen shots capturing dependencies
+  install_dependencies_needed_in_capturing_screen_shots:
+    steps:
+#      - run:
+#          name: Set Java 8 as default
+#          command: |
+#            sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+#            echo 'export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64' >> $BASH_ENV
+#            source $BASH_ENV
+      - run:
+          name: Downgrade ruby to version 2.6.0
+          command: |
+            rvm install 2.6.0
+            echo . $(rvm 2.6.0 do rvm env --path) >> $BASH_ENV
+            source $BASH_ENV
+      - run:
+          name: Install Fastlane
+          command: |
+            cd androidApp
+            echo 'export LC_ALL=en_US.UTF-8' >> $BASH_ENV
+            echo 'export LANG=en_US.UTF-8' >> $BASH_ENV
+            source $BASH_ENV
+            echo yes | gem install bundler && bundle update
+      - run:
+          name: Install Imagemagick and Screenshots
+          command: |
+            cd $HOME
+            sudo apt-get install imagemagick
+
+
+  # Build Debug and DebugAndroidTest
+  prepare_for_screen_shots:
+    steps:
+      - run:
+          name: Build App
+          command: |
+            cd androidApp
+            fastlane prepare_for_shot
+
+
+  # Launch emulator -> take screenshots and frame it then kill emulator
+  capture_screen_shots:
+    parameters:
+      avdname:
+        type: string
+        default: Nexus_5X
+      type:
+        type: string
+        default: Nexus 5X
+      config:
+        type: string
+        default: shot_phone
+    steps:
+      - run:
+          name: Create emulator << parameters.avdname >>
+          command: |
+            SYSTEM_IMAGES="system-images;android-29;default;x86"
+            sdkmanager "$SYSTEM_IMAGES"
+            echo "no" | avdmanager --verbose create avd -n << parameters.avdname >> -k "$SYSTEM_IMAGES" -d "<< parameters.type >>"
+      - run:
+          name: Launch emulator << parameters.avdname >>
+          command: |
+            emulator -avd << parameters.avdname >> -delay-adb -verbose -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          background: true
+      - run:
+          name: Wait for emulator << parameters.avdname >> to start
+          command: |
+            circle-android wait-for-boot
+      - run:
+          name: Disable emulator << parameters.avdname >> animations
+          command: |
+            adb shell settings put global window_animation_scale 0.0
+            adb shell settings put global transition_animation_scale 0.0
+            adb shell settings put global animator_duration_scale 0.0
+      - run:
+          name: Change Emulator date and time
+          command: |
+            adb shell "su 0 toybox date 030701592022.59"
+      - run:
+          name: << parameters.avdname >> Screenshots
+          command: |
+            cd androidApp
+            fastlane << parameters.config >>
+      - run:
+          name: Kill emulator << parameters.avdname >>
+          command: |
+            adb devices | grep emulator | cut -f1 | while read line; do adb -s $line emu kill; done || true
+
+
+  # Download latest frames
+  download_latest_frames:
+    steps:
+      - run:
+          name: Update Frames
+          command: |
+            cd androidApp
+            fastlane frameit download_frames
+
+
+  # Commit screenshots
+  commit_new_screen_shots:
+    steps:
+      - run:
+          name: Increment the app version code then commit and push it to remote
+          command: androidApp/scripts/commit_new_screen_shots.sh
+
+  #=======>

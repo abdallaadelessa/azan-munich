@@ -1,0 +1,52 @@
+<resources>
+
+    <style name="WidgetDayCellStyle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="WidgetDayNameStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text">@string/app_widget_default_name</item>
+    </style>
+
+    <style name="WidgetDayTimeStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:textColor">@color/colorOnPrimary</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:text">@string/app_widget_default_time</item>
+    </style>
+
+    <style name="WidgetDayIconStyle">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:src">@drawable/ic_notification_on</item>
+    </style>
+
+    <style name="WidgetDaySeparatorStyle">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="WidgetDayProgressStyle">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_margin">24dp</item>
+        <item name="android:indeterminateTint">@color/colorOnPrimary</item>
+    </style>
+
+</resources>

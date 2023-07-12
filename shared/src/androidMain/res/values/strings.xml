@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="day_widget_title">Day Widget</string>
+    <string name="day_widget_description">Next Prayers</string>
+    <string name="next_prayer_widget_title">Next Prayer Widget</string>
+    <string name="next_prayer_widget_description">Next Prayer</string>
+    <string name="app_widget_default_name">…</string>
+    <string name="app_widget_default_time">--:--</string>
+</resources>

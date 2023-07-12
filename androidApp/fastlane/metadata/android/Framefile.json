@@ -1,0 +1,82 @@
+{
+  "device_frame_version": "latest",
+  "default": {
+    "background": "./background.jpg",
+    "padding": 50,
+    "use_platform": "ANDROID"
+  },
+  "data": [
+    {
+      "filter": "splash_screenshot_light",
+      "keyword": {
+        "color": "#ff954d"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "home_screenshot_light",
+      "keyword": {
+        "color": "#ff954d"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "settings_screenshot_light",
+      "keyword": {
+        "color": "#ff954d"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "widgets_screenshot_light",
+      "keyword": {
+        "color": "#ff954d"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "splash_screenshot_dark",
+      "keyword": {
+        "color": "#939292"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "home_screenshot_dark",
+      "keyword": {
+        "color": "#939292"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "settings_screenshot_dark",
+      "keyword": {
+        "color": "#939292"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    },
+    {
+      "filter": "widgets_screenshot_dark",
+      "keyword": {
+        "color": "#939292"
+      },
+      "title": {
+        "color": "#000000"
+      }
+    }
+  ]
+}

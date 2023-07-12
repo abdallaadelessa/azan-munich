@@ -1,0 +1,89 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+#update_fastlane
+
+default_platform(:android)
+
+platform :android do
+
+#===========================================>
+
+  desc "Submit a new Beta Build to Play Store"
+  lane :publish_beta do
+      upload_to_play_store(
+          track: 'beta',
+          skip_upload_metadata: true,
+          skip_upload_changelogs: true,
+          skip_upload_images: true,
+          skip_upload_screenshots: true,
+          aab: '../androidApp/build/outputs/bundle/release/androidApp-release.aab'
+      )
+  end
+
+#===========================================>
+
+  desc "Prepare for shot"
+  lane :prepare_for_shot do
+     gradle(task: ":androidApp:assembleDebug", project_dir: '../')
+     gradle(task: ":androidApp:assembleDebugAndroidTest", project_dir: '../')
+  end
+
+  desc "Take screenshot for phone"
+  lane :shot_phone do
+     capture_android_screenshots(
+        skip_open_summary: true,
+        use_timestamp_suffix: false,
+        device_type: "phone"
+     )
+      frame_screenshots(
+         path: "./fastlane/metadata/android/de-DE/images/phoneScreenshots",
+         use_platform: "ANDROID",
+         resume: true,
+         force_device_type: "Nexus 6P"
+      )
+  end
+
+  desc "Take screenshot for sevenInch"
+  lane :shot_7inch do
+     capture_android_screenshots(
+        skip_open_summary: true,
+        use_timestamp_suffix: false,
+        device_type: "sevenInch"
+     )
+      frame_screenshots(
+         path: "./fastlane/metadata/android/de-DE/images/sevenInchScreenshots",
+         use_platform: "ANDROID",
+         force_device_type: "Nexus 9",
+         resume: true,
+      )
+  end
+
+  desc "Take screenshot for tenInch"
+  lane :shot_10inch do
+     capture_android_screenshots(
+        skip_open_summary: true,
+        use_timestamp_suffix: false,
+        device_type: "tenInch"
+     )
+      frame_screenshots(
+         path: "./fastlane/metadata/android/de-DE/images/tenInchScreenshots",
+         use_platform: "ANDROID",
+         force_device_type: "Nexus 9",
+         resume: true,
+      )
+  end
+
+#===========================================>
+
+end

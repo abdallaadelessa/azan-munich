@@ -1,0 +1,223 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_day_background"
+    android:gravity="center"
+    tools:ignore="UselessParent,contentDescription"
+    android:minWidth="@dimen/day_widget_min_width"
+    android:minHeight="@dimen/day_widget_min_height">
+
+    <LinearLayout
+        android:id="@+id/vgLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        tools:visibility="invisible">
+
+        <LinearLayout
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <ProgressBar style="@style/WidgetDayProgressStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <ProgressBar style="@style/WidgetDayProgressStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <ProgressBar style="@style/WidgetDayProgressStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <ProgressBar style="@style/WidgetDayProgressStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical"
+            tools:background="@drawable/widget_day_highlight">
+
+            <ProgressBar style="@style/WidgetDayProgressStyle" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vgError"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp"
+        android:visibility="invisible">
+
+        <TextView
+            android:id="@+id/tvError"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="12sp"
+            tools:text="No Content" />
+
+        <Button
+            android:id="@+id/btnRetry"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorHighlight"
+            android:minHeight="10dp"
+            android:textAllCaps="false"
+            android:textColor="@color/colorOnPrimary"
+            tools:text="Retry" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/vgContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:visibility="invisible"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/vgPrayer1"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical"
+            tools:background="@drawable/widget_day_highlight_start">
+
+            <TextView
+                android:id="@+id/tvPrayerName1"
+                style="@style/WidgetDayNameStyle" />
+
+            <ImageView
+                android:id="@+id/ivPrayer1"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime1"
+                style="@style/WidgetDayTimeStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer2"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName2"
+                style="@style/WidgetDayNameStyle" />
+
+            <ImageView
+                android:id="@+id/ivPrayer2"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime2"
+                style="@style/WidgetDayTimeStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer3"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical"
+            tools:background="@drawable/widget_day_highlight">
+
+            <TextView
+                android:id="@+id/tvPrayerName3"
+                style="@style/WidgetDayNameStyle" />
+
+            <ImageView
+                android:id="@+id/ivPrayer3"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime3"
+                style="@style/WidgetDayTimeStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer4"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName4"
+                style="@style/WidgetDayNameStyle" />
+
+            <ImageView
+                android:id="@+id/ivPrayer4"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime4"
+                style="@style/WidgetDayTimeStyle" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer5"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical"
+            tools:background="@drawable/widget_day_highlight_end">
+
+            <TextView
+                android:id="@+id/tvPrayerName5"
+                style="@style/WidgetDayNameStyle" />
+
+            <ImageView
+                android:id="@+id/ivPrayer5"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime5"
+                style="@style/WidgetDayTimeStyle" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<lint>
+
+    <issue id="all">
+        <ignore path="build/*" />
+    </issue>
+
+    <issue id="HardcodedText" severity="error" />
+
+    <issue id="UnspecifiedImmutableFlag" severity="fatal"/>
+
+    <issue id="NewApi">
+        <ignore regexp='^Field requires API level 26 \(current min is \d+\): `java\.time\.' />
+        <ignore regexp='^Call requires API level 26 \(current min is \d+\): `java\.time\.' />
+        <ignore regexp='^Enum for switch requires API level 26 \(current min is \d+\): `java\.time\.' />
+        <ignore regexp='^Cast from `LocalDateTime` to `ChronoLocalDateTime` requires API level 26' />
+        <ignore regexp='.*java.lang.Iterable#forEach.*' />
+    </issue>
+
+</lint>

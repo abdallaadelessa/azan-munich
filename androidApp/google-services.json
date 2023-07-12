@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "3744770914",
+    "project_id": "azan-munich-test",
+    "storage_bucket": "azan-munich-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3744770914:android:2556dec2c64f4ec3365a3b",
+        "android_client_info": {
+          "package_name": "com.alifwyaa.azanmunich.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3744770914-uvdb17frqj37bjtliktpkjs2v9c15p01.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd8vzesUXCtXuYA3qHZlNuB_wwOKFvNnw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3744770914-uvdb17frqj37bjtliktpkjs2v9c15p01.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "3744770914-hoe5n068ni0c2ll0p8vf5pv9k22i1rkv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.alifwyaa.azanmunich.ios",
+                "app_store_id": "1607651736"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

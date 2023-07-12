@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.alifwyaa.azanmunich">
+
+    <application>
+        <receiver android:name="com.alifwyaa.azanmunich.domain.internal.notification.SingleNotificationBroadcastReceiver" />
+
+        <receiver
+            android:name="com.alifwyaa.azanmunich.widget.DayWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/day_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name="com.alifwyaa.azanmunich.widget.NextPrayerWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/next_prayer_widget_info" />
+        </receiver>
+    </application>
+</manifest>

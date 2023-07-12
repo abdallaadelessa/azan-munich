@@ -1,0 +1,15 @@
+# remove the leading '#' to uncomment lines
+
+# app_package_name('com.alifwyaa.azanmunich.android')
+# use_tests_in_packages(['com.alifwyaa.azanmunich.android.screenshots'])
+
+app_apk_path('../androidApp/build/outputs/apk/debug/androidApp-debug.apk')
+tests_apk_path('../androidApp/build/outputs/apk/androidTest/debug/androidApp-debug-androidTest.apk')
+
+locales(['de-DE'])
+
+# clear all previously generated screenshots in your local output directory before creating new ones
+clear_previous_screenshots(false)
+
+# For more information about all available options run
+#   fastlane screengrab --help

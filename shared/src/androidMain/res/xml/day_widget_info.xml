@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:description="@string/day_widget_description"
+    android:initialKeyguardLayout="@layout/day_widget"
+    android:initialLayout="@layout/day_widget"
+    android:minWidth="@dimen/day_widget_min_width"
+    android:minHeight="@dimen/day_widget_min_height"
+    android:previewImage="@drawable/day_widget_preview"
+    android:previewLayout="@layout/day_widget_preview"
+    android:resizeMode="horizontal"
+    android:targetCellWidth="5"
+    android:targetCellHeight="1"
+    android:updatePeriodMillis="86400000"
+    android:widgetCategory="home_screen"
+    tools:ignore="UnusedAttribute" />

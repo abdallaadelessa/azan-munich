@@ -1,0 +1,138 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@android:id/background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/widget_day_background"
+    android:gravity="center"
+    tools:ignore="HardcodedText,UselessParent,contentDescription"
+    android:minWidth="@dimen/day_widget_min_width"
+    android:minHeight="@dimen/day_widget_min_height">
+
+    <LinearLayout
+        android:id="@+id/vgContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/vgPrayer1"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName1"
+                style="@style/WidgetDayNameStyle"
+                android:text="Fajr" />
+
+            <ImageView
+                android:id="@+id/ivPrayer1"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime1"
+                style="@style/WidgetDayTimeStyle"
+                android:text="06:30" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer2"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName2"
+                style="@style/WidgetDayNameStyle"
+                android:text="Dhuhr" />
+
+            <ImageView
+                android:id="@+id/ivPrayer2"
+                style="@style/WidgetDayIconStyle"
+                android:src="@drawable/ic_notification_off" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime2"
+                style="@style/WidgetDayTimeStyle"
+                android:text="12:30" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer3"
+            style="@style/WidgetDayCellStyle"
+            android:background="@drawable/widget_day_highlight"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName3"
+                style="@style/WidgetDayNameStyle"
+                android:text="Asr" />
+
+            <ImageView
+                android:id="@+id/ivPrayer3"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime3"
+                style="@style/WidgetDayTimeStyle"
+                android:text="14:30" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer4"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName4"
+                style="@style/WidgetDayNameStyle"
+                android:text="Maghrib" />
+
+            <ImageView
+                android:id="@+id/ivPrayer4"
+                style="@style/WidgetDayIconStyle" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime4"
+                style="@style/WidgetDayTimeStyle"
+                android:text="17:30" />
+
+        </LinearLayout>
+
+        <TextView style="@style/WidgetDaySeparatorStyle" />
+
+        <LinearLayout
+            android:id="@+id/vgPrayer5"
+            style="@style/WidgetDayCellStyle"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPrayerName5"
+                style="@style/WidgetDayNameStyle"
+                android:text="Isha" />
+
+            <ImageView
+                android:id="@+id/ivPrayer5"
+                style="@style/WidgetDayIconStyle"
+                android:src="@drawable/ic_notification_off" />
+
+            <TextView
+                android:id="@+id/tvPrayerTime5"
+                style="@style/WidgetDayTimeStyle"
+                android:text="21:30" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

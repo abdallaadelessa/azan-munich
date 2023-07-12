@@ -1,0 +1,2 @@
+json_key_file("playstore/play_console_api_config.json")
+package_name("com.alifwyaa.azanmunich.android")
