@@ -47,7 +47,7 @@ The SwiftLint configuration file can be found in `iosApp/.swiftlint.yml`.
 
 ## Firebase
 The Firebase project includes cloud functions that fetch Azan times from the [Islamic Center of Munich](https://www.islamisches-zentrum-muenchen.de/) and insert them into Cloud Firestore.
-The Firebase code can be found in the `firebase/` directory.
+The Firebase code can be found in the `firebase/functions` directory.
 
 ## Contributing
 
