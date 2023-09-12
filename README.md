@@ -2,6 +2,8 @@
 
 Welcome to Azan Munich, a mobile application that provides prayer times for the Islamic community in Munich. The app is available for download on both the Apple Store and the Play Store.
 
+<img src="https://github.com/abdallaadelessa/azan-munich/assets/13536749/6373be33-8573-4fc2-8128-83b83efd16b3" height="300">
+
 ## Installation
 
 - Apple Store: [Download from Apple Store](https://apps.apple.com/app/id1607651736)
