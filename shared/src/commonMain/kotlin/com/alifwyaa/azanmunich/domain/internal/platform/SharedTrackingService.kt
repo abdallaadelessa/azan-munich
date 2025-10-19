@@ -5,7 +5,7 @@ import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 /**
  * @author Created by Abdullah Essa on 01.10.21.
  */
-expect class SharedTrackingService actual constructor(
+expect class SharedTrackingService(
     platformInfo: SharedPlatformInfo
 ) {
     /**

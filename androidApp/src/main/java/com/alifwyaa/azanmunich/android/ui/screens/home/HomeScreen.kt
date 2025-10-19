@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.alifwyaa.azanmunich.android.R
+import com.alifwyaa.azanmunich.shared.R as SharedR
 import com.alifwyaa.azanmunich.android.extensions.screenHorizontalMargin
 import com.alifwyaa.azanmunich.android.extensions.toUnit
 import com.alifwyaa.azanmunich.android.ui.components.ShimmerView
@@ -345,9 +346,9 @@ private fun CreatePageSuccessItems(
             ) {
                 val painter = painterResource(
                     id = if (item.isNotificationEnabled) {
-                        R.drawable.ic_notification_on
+                        SharedR.drawable.ic_notification_on
                     } else {
-                        R.drawable.ic_notification_off
+                        SharedR.drawable.ic_notification_off
                     }
                 )
                 Image(

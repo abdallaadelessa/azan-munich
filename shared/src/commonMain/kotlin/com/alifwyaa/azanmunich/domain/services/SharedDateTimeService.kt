@@ -4,10 +4,6 @@ import com.alifwyaa.azanmunich.domain.internal.platform.SharedDateTimeFormatter
 import com.alifwyaa.azanmunich.domain.model.SharedDateModel
 import com.alifwyaa.azanmunich.domain.model.SharedTimeModel
 import com.alifwyaa.azanmunich.domain.model.SharedTimeUntil
-import kotlin.time.Duration
-import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
-import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -17,6 +13,11 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.plus
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.DurationUnit
+import kotlin.time.ExperimentalTime
 
 /**
  * @author Created by Abdullah Essa on 24.05.21.
@@ -210,7 +211,7 @@ class SharedDateTimeService(
     fun getDaysFromNow(daysFromNow: Int): List<SharedDateModel> =
         mutableListOf<LocalDateTime>().apply {
             for (i in 0..daysFromNow) {
-                add(todayInstant.plus(Duration.days(i)).toLocalDateTime(appTimeZone))
+                add(todayInstant.plus(i.days).toLocalDateTime(appTimeZone))
             }
         }.map {
             SharedDateModel(

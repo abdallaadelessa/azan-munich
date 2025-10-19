@@ -12,7 +12,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.alifwyaa.azanmunich.R
+import com.alifwyaa.azanmunich.shared.R
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
 import com.alifwyaa.azanmunich.domain.SharedApp
 import com.alifwyaa.azanmunich.domain.SharedStrings

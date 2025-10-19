@@ -7,27 +7,20 @@ val isDevMode = java.util.Properties().apply {
 
 println("isDevMode: $isDevMode")
 
-buildscript {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = Versions.kotlin))
-        classpath(kotlin("serialization", version = Versions.kotlin))
-        classpath("com.android.tools.build:gradle:7.1.2")
-        classpath("com.google.gms:google-services:4.3.10")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
-    }
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.cocoapods) apply false
+    alias(libs.plugins.kotlin.compose.compiler) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.detekt)
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
     setupDetekt()
 
     beforeEvaluate {
@@ -41,10 +34,6 @@ tasks.register("clean", Delete::class) {
 
 //==================================================>
 //region Detekt
-
-plugins {
-    id("io.gitlab.arturbosch.detekt").version("1.17.1")
-}
 
 fun Project.setupDetekt() {
     apply(plugin = "io.gitlab.arturbosch.detekt")

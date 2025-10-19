@@ -8,7 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
-import com.alifwyaa.azanmunich.R
+import com.alifwyaa.azanmunich.shared.R
 import com.alifwyaa.azanmunich.domain.SharedApp
 import com.alifwyaa.azanmunich.domain.internal.notification.NotificationUtils
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 apply(from = "properties.gradle.kts")
 val keyStoreFileName: String by extra
 val keystorePassword: String by extra
@@ -8,20 +10,22 @@ val appVersionName: String by extra
 
 
 plugins {
-    id("com.android.application")
-    kotlin("android")
-    id("com.google.gms.google-services")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose.compiler)
+    alias(libs.plugins.google.services)
     id("kotlin-parcelize")
-    id("com.google.firebase.crashlytics")
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 android {
-    compileSdkVersion(AndroidProjectConfig.compileSdkVersion)
+    namespace = "com.alifwyaa.azanmunich.android"
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.alifwyaa.azanmunich.android"
-        minSdkVersion(AndroidProjectConfig.minSdkVersion)
-        targetSdkVersion(AndroidProjectConfig.targetSdkVersion)
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = appVersionCode.toIntOrNull()
         versionName = appVersionName
         // Required when setting minSdkVersion to 20 or lower
@@ -33,23 +37,22 @@ android {
     buildFeatures {
         // Enables Jetpack Compose for this module
         compose = true
+        buildConfig = true
     }
 
     compileOptions {
         // Flag to enable support for the new language APIs
         isCoreLibraryDesugaringEnabled = true
-        // Sets Java compatibility to Java 8
-        sourceCompatibility(JavaVersion.VERSION_1_8)
-        targetCompatibility(JavaVersion.VERSION_1_8)
+        // Sets Java compatibility to Java 17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
-    composeOptions {
-        kotlinCompilerVersion = Versions.kotlin
-        kotlinCompilerExtensionVersion = "1.2.0-alpha02"
+    kotlin {
+        jvmToolchain(21)
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+        }
     }
 
     signingConfigs {
@@ -90,7 +93,7 @@ android {
         }
     }
 
-    packagingOptions {
+    packaging {
         resources {
             excludes += setOf("META-INF/AL2.0", "META-INF/LGPL2.1")
         }
@@ -189,54 +192,35 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:1.1.5")
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(project(":shared"))
 
-    implementation(Deps.Android.coroutines)
+    // BOMs for version management
+    implementation(platform(libs.kotlin.bom))
+    implementation(platform(libs.compose.bom))
+    implementation(platform(libs.firebase.bom))
 
-    implementation(Deps.Android.workManager)
+    implementation(libs.coroutines.android)
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.appcompat)
 
-    //====================>
+    // Compose
+    implementation(libs.bundles.compose)
+    implementation(libs.compose.material.icons.core)
 
-    implementation("androidx.appcompat:appcompat:1.4.1")
+    // AndroidX Compose Integration
+    implementation(libs.bundles.androidx.compose.integration)
 
-    //====================>
-
-    val composeVersion = "1.1.0"
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    // Tooling support (Previews, etc.)
-    implementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    // Foundation (Border, Background, Box, Image, Scroll, shapes, animations, etc.)
-    implementation("androidx.compose.foundation:foundation:$composeVersion")
-    // Material Design
-    implementation("androidx.compose.material:material:$composeVersion")
-
-    //====================>
-
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
-    implementation("androidx.navigation:navigation-compose:2.4.1")
-    implementation("androidx.activity:activity-compose:1.4.0")
-
-    //====================>
-
-    val accompanistVersion = "0.23.0"
-    implementation("com.google.accompanist:accompanist-swiperefresh:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-insets:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-insets-ui:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:$accompanistVersion")
-    implementation("com.google.accompanist:accompanist-navigation-animation:$accompanistVersion")
-
-    //====================>
+    // Accompanist
+    implementation(libs.bundles.accompanist)
 
     // UI Tests
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
-    androidTestImplementation("androidx.test:runner:1.4.0")
-    androidTestImplementation("androidx.test:rules:1.4.0")
-    // Fastlane
-    androidTestImplementation("tools.fastlane:screengrab:2.1.1")
-
+    androidTestImplementation(libs.androidx.test.ext.junit)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    debugImplementation(libs.compose.ui.test.manifest)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.rules)
+    androidTestImplementation(libs.fastlane.screengrab)
 }

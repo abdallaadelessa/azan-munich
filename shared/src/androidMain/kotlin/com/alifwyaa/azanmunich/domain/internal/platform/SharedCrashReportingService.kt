@@ -1,25 +1,28 @@
 package com.alifwyaa.azanmunich.domain.internal.platform
 
 import android.app.Application
-import android.graphics.Color
-import com.alifwyaa.azanmunich.domain.services.SharedAppScope
+import androidx.core.graphics.toColorInt
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 import com.alifwyaa.azanmunich.domain.model.events.SharedLanguageChangedEvent
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppLocale
+import com.alifwyaa.azanmunich.domain.services.SharedAppScope
 import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
+import com.instabug.apm.APM
 import com.instabug.crash.CrashReporting
+import com.instabug.crash.models.IBGNonFatalException
 import com.instabug.library.Feature
 import com.instabug.library.Instabug
+import com.instabug.library.LogLevel
 import com.instabug.library.invocation.InstabugInvocationEvent
-import java.util.Locale
+import com.instabug.library.settings.SettingsManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 /**
  * @author Created by Abdullah Essa on 01.10.21.
@@ -59,8 +62,9 @@ actual class SharedCrashReportingService actual constructor(
 
         // Crashlytics
         Firebase.crashlytics.recordException(throwable)
+
         // InstaBug
-        CrashReporting.reportException(throwable)
+        CrashReporting.report(IBGNonFatalException.Builder(throwable).build())
     }
 
     /**
@@ -68,8 +72,11 @@ actual class SharedCrashReportingService actual constructor(
      */
     actual fun updateInstaBubblePrimaryColor(hexColor: String) {
         if (isRunningUnitTests) return
-
-        Instabug.setPrimaryColor(Color.parseColor(hexColor))
+        val intColor = hexColor.toColorInt()
+        SettingsManager.getInstance().apply {
+            primaryColor = intColor
+            statusBarColor = intColor
+        }
     }
 
     //region Helpers
@@ -79,10 +86,18 @@ actual class SharedCrashReportingService actual constructor(
     }
 
     private fun initInstaBugSDK() {
+        val isDebug = platformInfo.isDebug
+        val logsLevel = when (isDebug) {
+            true -> LogLevel.DEBUG
+            false -> LogLevel.NONE
+        }
+
         Instabug.Builder(application, instaBugSdkToken)
             .setInvocationEvents(InstabugInvocationEvent.FLOATING_BUTTON)
-            .setDebugEnabled(platformInfo.isDebug)
+            .setSdkDebugLogsLevel(logsLevel)
             .build()
+
+        APM.setEnabled(!isDebug)
 
         appScope.launch(SharedDispatchers.Main) {
             settingsService

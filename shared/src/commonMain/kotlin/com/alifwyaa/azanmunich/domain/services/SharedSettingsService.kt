@@ -85,7 +85,7 @@ class SharedSettingsService(
         }
         get() {
             val stringValueFromPrefs: String? = prefs.getStringOrNull(PREFS_KEY_APP_THEME)
-            val appTheme: SharedAppTheme = SharedAppTheme.values()
+            val appTheme: SharedAppTheme = SharedAppTheme.entries
                 .firstOrNull { it.toString().equals(stringValueFromPrefs, ignoreCase = true) }
                 ?: SharedAppTheme.DEFAULT
             return appThemeList.first { it.appTheme == appTheme }
@@ -96,7 +96,7 @@ class SharedSettingsService(
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val appThemeList: List<SharedAppThemeSettingsModel>
-        get() = SharedAppTheme.values().map {
+        get() = SharedAppTheme.entries.map {
             SharedAppThemeSettingsModel(
                 displayName = when (it) {
                     SharedAppTheme.DEFAULT -> localizationService().strings.appThemeDefault
@@ -121,7 +121,7 @@ class SharedSettingsService(
         }
         get() {
             val stringValueFromPrefs: String? = prefs.getStringOrNull(PREFS_KEY_APP_SOUND)
-            val appSound: SharedAppSound = SharedAppSound.values()
+            val appSound: SharedAppSound = SharedAppSound.entries
                 .firstOrNull { it.toString().equals(stringValueFromPrefs, ignoreCase = true) }
                 ?: SharedAppSound.SOUND1
             return appSoundList.first { it.appSound == appSound }
@@ -132,7 +132,7 @@ class SharedSettingsService(
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val appSoundList: List<ShardAppSoundSettingsModel>
-        get() = SharedAppSound.values().map {
+        get() = SharedAppSound.entries.map {
             ShardAppSoundSettingsModel(
                 displayName = when (it) {
                     SharedAppSound.DEFAULT -> localizationService().strings.appSoundDefault

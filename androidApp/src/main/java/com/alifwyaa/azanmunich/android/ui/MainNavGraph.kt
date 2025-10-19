@@ -5,6 +5,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,8 +29,6 @@ import com.alifwyaa.azanmunich.android.ui.screens.settings.SettingsViewModel
 import com.alifwyaa.azanmunich.android.ui.screens.splash.SplashScreen
 import com.alifwyaa.azanmunich.domain.SharedApp
 import com.alifwyaa.azanmunich.domain.SharedStrings
-import com.google.accompanist.insets.navigationBarsPadding
-import com.google.accompanist.insets.statusBarsPadding
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 
@@ -74,9 +78,6 @@ fun MainNavigationGraph(
     AnimatedNavHost(
         navController = appRouter.navController,
         startDestination = appRouter.startRoute.route,
-        modifier = Modifier
-            .navigationBarsPadding()
-            .statusBarsPadding()
     ) {
         composable(
             route = SPLASH.route,
@@ -94,6 +95,7 @@ fun MainNavigationGraph(
                         initialOffsetX = { it },
                         animationSpec = tween(animationDurationInMillis)
                     )
+
                     else -> slideInHorizontally(animationSpec = tween(animationDurationInMillis))
                 }
             },
@@ -152,13 +154,19 @@ private fun CreateHomeScreen(
         }
     )
 
-    Scaffold(topBar = {
-        HomeAppHeader(
-            title = sharedStrings.appName,
-            menuItemTitle = sharedStrings.settings,
-            openSettings = appRouter.navigateToSettings
-        )
-    }) {
+    Scaffold(
+        topBar = {
+            HomeAppHeader(
+                title = sharedStrings.appName,
+                menuItemTitle = sharedStrings.settings,
+                openSettings = appRouter.navigateToSettings
+            )
+        },
+        modifier = Modifier
+            .background(MaterialTheme.colors.primary)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .windowInsetsPadding(WindowInsets.statusBars)
+    ) {
         HomeScreen(viewModel = homeViewModel)
     }
 }
@@ -180,13 +188,19 @@ private fun CreateSettingsScreen(
         }
     )
 
-    Scaffold(topBar = {
-        SettingsAppHeader(
-            title = sharedStrings.settings,
-            previousScreenTitle = sharedStrings.appName,
-            onBack = appRouter.upPress
-        )
-    }) {
+    Scaffold(
+        topBar = {
+            SettingsAppHeader(
+                title = sharedStrings.settings,
+                previousScreenTitle = sharedStrings.appName,
+                onBack = appRouter.upPress
+            )
+        },
+        modifier = Modifier
+            .background(MaterialTheme.colors.primary)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+            .windowInsetsPadding(WindowInsets.statusBars)
+    ) {
         SettingsScreen(settingsViewModel)
     }
 }
@@ -194,7 +208,7 @@ private fun CreateSettingsScreen(
 private fun createViewModelFactory(createBlock: () -> ViewModel) =
     object : ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return createBlock() as T
         }
     }

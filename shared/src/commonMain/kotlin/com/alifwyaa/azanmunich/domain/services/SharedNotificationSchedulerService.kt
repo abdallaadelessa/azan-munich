@@ -10,13 +10,13 @@ import com.alifwyaa.azanmunich.domain.model.events.SharedNotificationsChangedEve
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppSound
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.datetime.Clock
 import kotlinx.datetime.toLocalDateTime
+import kotlin.time.Clock
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 
@@ -227,7 +227,7 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
                     timeModel = it.timeModel
                 ).toDouble(DurationUnit.SECONDS)
                 val dateTime = Clock.System.now()
-                    .plus(Duration.seconds(timeFromNowInSeconds))
+                    .plus(timeFromNowInSeconds.seconds)
                     .toLocalDateTime(SharedDateTimeService.appTimeZone)
                 it.run {
                     appendLine(

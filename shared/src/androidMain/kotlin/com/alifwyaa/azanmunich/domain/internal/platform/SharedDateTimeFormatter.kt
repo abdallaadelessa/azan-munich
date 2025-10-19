@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.alifwyaa.azanmunich.domain.internal.platform
 
 import android.annotation.SuppressLint
@@ -6,14 +8,15 @@ import android.icu.util.ULocale
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.alifwyaa.azanmunich.domain.services.SharedDateTimeService.Companion.appTimeZone
-import java.time.format.DateTimeFormatter.ofPattern
-import java.util.Date
-import java.util.Locale
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toInstant
-import kotlinx.datetime.toJavaInstant
 import kotlinx.datetime.toJavaLocalDateTime
+import java.time.format.DateTimeFormatter.ofPattern
+import java.util.Date
+import java.util.Locale
+import kotlin.time.ExperimentalTime
+import kotlin.time.toJavaInstant
 
 /**
  * @author Created by Abdullah Essa on 01.06.21.

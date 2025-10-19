@@ -24,7 +24,6 @@ import com.alifwyaa.azanmunich.domain.model.settings.SharedAppTheme
 import com.alifwyaa.azanmunich.domain.services.SharedLocalizationService
 import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
 import com.alifwyaa.azanmunich.extensions.sharedApp
-import com.google.accompanist.insets.ProvideWindowInsets
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
@@ -65,13 +64,11 @@ class MainActivity : AppCompatActivity() {
             val sharedStrings: SharedStrings = getSharedStrings()
 
             AppTheme(isDarkTheme = isDarkTheme) {
-                ProvideWindowInsets {
-                    MainNavigationGraph(
-                        sharedApp= sharedApp,
-                        appRouter = appRouter,
-                        sharedStrings = sharedStrings
-                    )
-                }
+                MainNavigationGraph(
+                    sharedApp = sharedApp,
+                    appRouter = appRouter,
+                    sharedStrings = sharedStrings
+                )
             }
         }
 

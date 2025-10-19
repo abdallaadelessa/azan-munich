@@ -14,7 +14,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.alifwyaa.azanmunich.R
+import com.alifwyaa.azanmunich.shared.R
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
 import com.alifwyaa.azanmunich.domain.extensions.toNotificationSound
 import com.alifwyaa.azanmunich.domain.model.SharedNotificationModel

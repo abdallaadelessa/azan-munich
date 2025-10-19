@@ -2,11 +2,11 @@ package com.alifwyaa.azanmunich.domain.internal.platform
 
 import android.os.Bundle
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
+import com.google.firebase.Firebase
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.FirebaseAnalytics.Event.SCREEN_VIEW
 import com.google.firebase.analytics.FirebaseAnalytics.Param.SCREEN_NAME
-import com.google.firebase.analytics.ktx.analytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.analytics.analytics
 
 /**
  * @author Created by Abdullah Essa on 01.10.21.
