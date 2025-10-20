@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import com.alifwyaa.azanmunich.android.ui.AppRoute
 import com.alifwyaa.azanmunich.android.ui.AppRouter
 import com.alifwyaa.azanmunich.android.ui.MainNavigationGraph
+import com.alifwyaa.azanmunich.android.ui.components.RequestNotificationPermissionDialog
 import com.alifwyaa.azanmunich.android.ui.theme.AppTheme
 import com.alifwyaa.azanmunich.domain.SharedStrings
 import com.alifwyaa.azanmunich.domain.model.events.SharedLanguageChangedEvent
@@ -39,23 +40,9 @@ class MainActivity : AppCompatActivity() {
     private val sharedLocalizationService: SharedLocalizationService
         get() = sharedApp.localizationService
 
-    private val notificationPermissionRequester = NotificationPermissionRequester()
-
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        AzanPeriodicJobScheduler.schedule(context = this)
-
-        notificationPermissionRequester.startIfNecessary(
-            activity = this,
-            onGranted = {
-                AzanPeriodicJobScheduler.schedule(context = this)
-            },
-            onDenied = {
-                AzanPeriodicJobScheduler.schedule(context = this)
-            }
-        )
 
         // This app draws behind the system bars, so we want to handle fitting system windows
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -76,6 +63,17 @@ class MainActivity : AppCompatActivity() {
             val sharedStrings: SharedStrings = getSharedStrings()
 
             AppTheme(isDarkTheme = isDarkTheme) {
+
+                RequestNotificationPermissionDialog(
+                    sharedStrings = sharedStrings,
+                    onGranted = {
+                        AzanPeriodicJobScheduler.schedule(context = this)
+                    },
+                    onDenied = {
+                        AzanPeriodicJobScheduler.schedule(context = this)
+                    }
+                )
+
                 MainNavigationGraph(
                     sharedApp = sharedApp,
                     appRouter = appRouter,
