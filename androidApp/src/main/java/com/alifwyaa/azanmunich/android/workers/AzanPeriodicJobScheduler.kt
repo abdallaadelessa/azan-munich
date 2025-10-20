@@ -1,4 +1,4 @@
-package com.alifwyaa.azanmunich.android
+package com.alifwyaa.azanmunich.android.workers
 
 import android.content.Context
 import androidx.work.Constraints
@@ -55,7 +55,7 @@ class AzanPeriodicJobScheduler(
 
             //========>
 
-            val workManager = WorkManager.getInstance(context)
+            val workManager = WorkManager.Companion.getInstance(context)
 
             workManager.cancelAllWorkByTag(TAG_AZAN_TIME_JOB)
 

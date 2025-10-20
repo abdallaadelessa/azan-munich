@@ -74,9 +74,13 @@ import com.alifwyaa.azanmunich.domain.model.SharedTimeModel
  * HomeScreen
  */
 @Composable
-fun HomeScreen(viewModel: HomeViewModel) {
+fun HomeScreen(
+    viewModel: HomeViewModel,
+    modifier: Modifier = Modifier
+) {
     val state by viewModel.stateFlow.collectAsState(viewModel.initialState)
     HomeContent(
+        modifier = modifier,
         state = state,
         goToDayBefore = viewModel::goToDayBefore,
         goToDayAfter = viewModel::goToDayAfter,
@@ -87,11 +91,12 @@ fun HomeScreen(viewModel: HomeViewModel) {
 
 @Composable
 fun HomeContent(
+    modifier: Modifier = Modifier,
     state: State,
     goToDayBefore: () -> Unit = {},
     goToDayAfter: () -> Unit = {},
     goToNextAzanDay: () -> Unit = {},
-    retry: () -> Unit = {},
+    retry: () -> Unit = {}
 ) {
     val scrollableListState = rememberLazyListState()
 
@@ -103,7 +108,7 @@ fun HomeContent(
             horizontal = LocalConfiguration.current.screenHorizontalMargin,
             vertical = 16.dp
         ),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         item {
             CreatePageHeader(
@@ -516,7 +521,7 @@ fun PreviewHomeScreen() {
         }
     )
     HomeContent(
-        State(
+        state = State(
             nextAzan = DataPlaceHolder.Success(
                 NextAzan(
                     id = "",

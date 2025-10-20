@@ -145,6 +145,23 @@ actual class SharedLocalNotificationsService actual constructor(
         true
     }
 
+    actual suspend fun notifyWidgets() = withContext(Main) {
+        threadSafeSuspendCallback { completion ->
+            val callback: (List<*>?) -> Unit = { requests: List<*>? ->
+                completion(Result.success(Unit))
+            }
+
+            callback.freeze()
+
+            getNotificationCenter()
+                .getPendingNotificationRequestsWithCompletionHandler(callback)
+
+            return@threadSafeSuspendCallback {
+                // not cancelable
+            }
+        }
+    }
+
     //endregion
 
     //region Helpers

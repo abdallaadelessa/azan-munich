@@ -1,13 +1,11 @@
 package com.alifwyaa.azanmunich.android.ui
 
-
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.MaterialTheme
@@ -18,6 +16,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.alifwyaa.azanmunich.android.extensions.appContext
 import com.alifwyaa.azanmunich.android.ui.AppRoute.HOME
 import com.alifwyaa.azanmunich.android.ui.AppRoute.SETTINGS
@@ -29,12 +29,10 @@ import com.alifwyaa.azanmunich.android.ui.screens.settings.SettingsViewModel
 import com.alifwyaa.azanmunich.android.ui.screens.splash.SplashScreen
 import com.alifwyaa.azanmunich.domain.SharedApp
 import com.alifwyaa.azanmunich.domain.SharedStrings
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
 
 
 /**
- * Destinations used in the ([MainActivityContent]).
+ * Destinations used in the app navigation.
  */
 enum class AppRoute(val route: String) {
     SPLASH("/splash"),
@@ -66,7 +64,6 @@ class AppRouter(
 /**
  * Main app graph
  */
-@ExperimentalAnimationApi
 @Composable
 fun MainNavigationGraph(
     sharedApp: SharedApp,
@@ -75,14 +72,17 @@ fun MainNavigationGraph(
 ) {
     val animationDurationInMillis = 400
 
-    AnimatedNavHost(
+    NavHost(
         navController = appRouter.navController,
         startDestination = appRouter.startRoute.route,
     ) {
         composable(
             route = SPLASH.route,
             exitTransition = {
-                slideOutHorizontally(animationSpec = tween(animationDurationInMillis))
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(animationDurationInMillis)
+                )
             },
         ) {
             CreateSplashScreen(appRouter)
@@ -91,19 +91,21 @@ fun MainNavigationGraph(
             route = HOME.route,
             enterTransition = {
                 when (initialState.destination.route) {
-                    SPLASH.route -> slideInHorizontally(
-                        initialOffsetX = { it },
+                    SPLASH.route -> slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start,
                         animationSpec = tween(animationDurationInMillis)
                     )
 
-                    else -> slideInHorizontally(animationSpec = tween(animationDurationInMillis))
+                    else -> slideIntoContainer(
+                        towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                        animationSpec = tween(animationDurationInMillis)
+                    )
                 }
             },
             exitTransition = {
-                slideOutHorizontally(
-                    animationSpec = tween(
-                        animationDurationInMillis
-                    )
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
+                    animationSpec = tween(animationDurationInMillis)
                 )
             },
         ) {
@@ -112,14 +114,14 @@ fun MainNavigationGraph(
         composable(
             route = SETTINGS.route,
             enterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { it },
+                slideIntoContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.Start,
                     animationSpec = tween(animationDurationInMillis)
                 )
             },
             exitTransition = {
-                slideOutHorizontally(
-                    targetOffsetX = { it / 2 },
+                slideOutOfContainer(
+                    towards = AnimatedContentTransitionScope.SlideDirection.End,
                     animationSpec = tween(animationDurationInMillis)
                 )
             },
@@ -131,8 +133,11 @@ fun MainNavigationGraph(
 
 @Composable
 private fun CreateSplashScreen(appRouter: AppRouter) {
-    Scaffold {
-        SplashScreen(navigateToHome = appRouter.navigateToHome)
+    Scaffold { paddingValues ->
+        SplashScreen(
+            navigateToHome = appRouter.navigateToHome,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }
 
@@ -166,8 +171,11 @@ private fun CreateHomeScreen(
             .background(MaterialTheme.colors.primary)
             .windowInsetsPadding(WindowInsets.navigationBars)
             .windowInsetsPadding(WindowInsets.statusBars)
-    ) {
-        HomeScreen(viewModel = homeViewModel)
+    ) { paddingValues ->
+        HomeScreen(
+            viewModel = homeViewModel,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }
 
@@ -200,8 +208,11 @@ private fun CreateSettingsScreen(
             .background(MaterialTheme.colors.primary)
             .windowInsetsPadding(WindowInsets.navigationBars)
             .windowInsetsPadding(WindowInsets.statusBars)
-    ) {
-        SettingsScreen(settingsViewModel)
+    ) { paddingValues ->
+        SettingsScreen(
+            viewModel = settingsViewModel,
+            modifier = Modifier.padding(paddingValues)
+        )
     }
 }
 

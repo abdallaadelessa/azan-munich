@@ -41,9 +41,13 @@ fun PreviewSplashScreen() {
  * SplashScreen
  */
 @Composable
-fun SplashScreen(navigateToHome: () -> Unit) {
+fun SplashScreen(
+    navigateToHome: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     SplashContent(
-        title = LocalContext.current.sharedApp.localizationService.strings.appName
+        title = LocalContext.current.sharedApp.localizationService.strings.appName,
+        modifier = modifier
     )
     LaunchedEffect(true) {
         launch(Dispatchers.Main) {
@@ -54,7 +58,10 @@ fun SplashScreen(navigateToHome: () -> Unit) {
 }
 
 @Composable
-fun SplashContent(title: String) {
+fun SplashContent(
+    title: String,
+    modifier: Modifier = Modifier
+) {
     val systemUiController = rememberSystemUiController()
 
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -70,7 +77,7 @@ fun SplashContent(title: String) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         val size = 250
 

@@ -20,6 +20,11 @@ expect class SharedLocalNotificationsService(
 ) {
 
     /**
+     * Refresh Widgets
+     */
+    suspend fun notifyWidgets()
+
+    /**
      * Check the notification permission is granted
      */
     suspend fun isPermissionGranted(): Boolean

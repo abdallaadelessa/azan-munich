@@ -5,10 +5,7 @@ package com.alifwyaa.azanmunich.domain.internal.platform
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import android.icu.util.ULocale
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.alifwyaa.azanmunich.domain.services.SharedDateTimeService.Companion.appTimeZone
-import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toJavaLocalDateTime
@@ -16,12 +13,13 @@ import java.time.format.DateTimeFormatter.ofPattern
 import java.util.Date
 import java.util.Locale
 import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlin.time.toJavaInstant
 
 /**
  * @author Created by Abdullah Essa on 01.06.21.
  */
-@RequiresApi(Build.VERSION_CODES.O)
+@SuppressLint("SimpleDateFormat", "NewApi")
 actual object SharedDateTimeFormatter {
     actual fun gregorianFormat(
         dateTime: LocalDateTime,
@@ -31,7 +29,6 @@ actual object SharedDateTimeFormatter {
         dateTime.toJavaLocalDateTime().format(ofPattern(pattern, Locale(localeCode)))
     }.getOrDefault("-")
 
-    @SuppressLint("SimpleDateFormat")
     actual fun hijriFormat(
         dateTime: LocalDateTime,
         pattern: String,

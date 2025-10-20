@@ -25,7 +25,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -51,12 +51,16 @@ import com.alifwyaa.azanmunich.domain.model.settings.SharedAppThemeSettingsModel
  * SettingsScreen
  */
 @Composable
-fun SettingsScreen(viewModel: SettingsViewModel) {
+fun SettingsScreen(
+    viewModel: SettingsViewModel,
+    modifier: Modifier = Modifier
+) {
     val state by viewModel.stateFlow.collectAsState(viewModel.initialState)
 
     DialogPicker(pickerState = state.dialog)
 
     SettingsContent(
+        modifier = modifier,
         state = state,
         onThemeValueClicked = {
             showDialogPicker(viewModel, state.themeSettings) { v -> viewModel.setAppTheme(v) }
@@ -71,14 +75,14 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
         onSunriseEnabledChanged = { viewModel.setSunriseEnabled(it) },
         onDhuhrEnabledChanged = { viewModel.setDhuhrEnabled(it) },
         onAsrEnabledChanged = { viewModel.setAsrEnabled(it) },
-        onMaghribEnabledChanged = { viewModel.setMaghribEnabled(it) },
-        onIshaEnabledChanged = { viewModel.setIshaEnabled(it) },
-    )
+        onMaghribEnabledChanged = { viewModel.setMaghribEnabled(it) }
+    ) { viewModel.setIshaEnabled(it) }
 }
 
 @Suppress("LongParameterList")
 @Composable
 fun SettingsContent(
+    modifier: Modifier = Modifier,
     state: State,
     onThemeValueClicked: () -> Unit = {},
     onLanguageValueClicked: () -> Unit = {},
@@ -88,7 +92,7 @@ fun SettingsContent(
     onDhuhrEnabledChanged: (Boolean) -> Unit = {},
     onAsrEnabledChanged: (Boolean) -> Unit = {},
     onMaghribEnabledChanged: (Boolean) -> Unit = {},
-    onIshaEnabledChanged: (Boolean) -> Unit = {},
+    onIshaEnabledChanged: (Boolean) -> Unit = {}
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -97,7 +101,7 @@ fun SettingsContent(
             horizontal = LocalConfiguration.current.screenHorizontalMargin,
             vertical = 16.dp
         ),
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         item {
             CreateGeneralSection(
@@ -367,12 +371,12 @@ private fun DialogPicker(pickerState: State.DialogPickerState) {
         }
         is State.DialogPickerState.Shown -> {
             pickerState.request.apply {
-                val radioButtonSelectedIndex = remember { mutableStateOf(selectedIndex) }
+                val radioButtonSelectedIndex = remember { mutableIntStateOf(selectedIndex) }
                 AlertDialog(
                     modifier = Modifier.padding(horizontal = LocalConfiguration.current.dialogHorizontalMargin),
                     onDismissRequest = {},
                     confirmButton = {
-                        TextButton(onClick = { onItemSelected(radioButtonSelectedIndex.value) }) {
+                        TextButton(onClick = { onItemSelected(radioButtonSelectedIndex.intValue) }) {
                             Text(
                                 positiveBtn,
                                 style = MaterialTheme.typography.body1,

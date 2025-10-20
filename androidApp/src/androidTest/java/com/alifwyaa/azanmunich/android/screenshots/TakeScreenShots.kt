@@ -12,7 +12,6 @@ import com.alifwyaa.azanmunich.android.ui.SettingsAppHeader
 import com.alifwyaa.azanmunich.android.ui.screens.home.HomeContent
 import com.alifwyaa.azanmunich.android.ui.screens.settings.SettingsContent
 import com.alifwyaa.azanmunich.android.ui.screens.splash.SplashContent
-import com.alifwyaa.azanmunich.android.ui.screens.splash.SplashScreen
 import com.alifwyaa.azanmunich.android.ui.theme.AppTheme
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppTheme
 import com.alifwyaa.azanmunich.extensions.sharedApp
@@ -80,7 +79,7 @@ class TakeScreenShots {
                         openSettings = {}
                     )
                 }) {
-                    HomeContent(HomeStateFactory.getState(getSharedApp()))
+                    HomeContent(state = HomeStateFactory.getState(getSharedApp()))
                 }
             }
         }
@@ -98,7 +97,7 @@ class TakeScreenShots {
                         openSettings = {}
                     )
                 }) {
-                    HomeContent(HomeStateFactory.getState(getSharedApp()))
+                    HomeContent(state = HomeStateFactory.getState(getSharedApp()))
                 }
             }
         }
@@ -116,7 +115,7 @@ class TakeScreenShots {
                         onBack = {}
                     )
                 }) {
-                    SettingsContent(SettingsStateFactory.getState(sharedApp = getSharedApp()))
+                    SettingsContent(state = SettingsStateFactory.getState(sharedApp = getSharedApp()))
                 }
             }
         }
@@ -134,7 +133,7 @@ class TakeScreenShots {
                         onBack = {}
                     )
                 }) {
-                    SettingsContent(SettingsStateFactory.getState(sharedApp = getSharedApp()))
+                    SettingsContent(state = SettingsStateFactory.getState(sharedApp = getSharedApp()))
                 }
             }
         }

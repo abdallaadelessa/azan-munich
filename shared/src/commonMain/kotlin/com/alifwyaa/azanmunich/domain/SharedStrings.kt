@@ -45,12 +45,19 @@ interface SharedStrings {
     val cancel: String
     val allow: String
     val notNow: String
+    val openSettings: String
 
     // Notification Permission Strings
     val notificationPermissionTitle: String
     val notificationPermissionMessage: String
     val notificationPermissionDeniedTitle: String
     val notificationPermissionDeniedMessage: String
+
+    // Exact Alarm Permission Strings
+    val exactAlarmPermissionTitle: String
+    val exactAlarmPermissionMessage: String
+    val exactAlarmPermissionDeniedTitle: String
+    val exactAlarmPermissionDeniedMessage: String
 
     val nextPrayerWidgetAppName: String get() = "Next Prayer Widget"
     val nextPrayerWidgetAppDesc: String get() = "show the next prayer time"
@@ -113,6 +120,7 @@ internal object SharedStringsEnglish : SharedStrings {
     override val cancel: String = "CANCEL"
     override val allow: String = "Allow"
     override val notNow: String = "Not Now"
+    override val openSettings: String = "Open Settings"
 
     // Notification Permission Strings
     override val notificationPermissionTitle: String = "Enable Prayer Time Notifications"
@@ -134,6 +142,31 @@ internal object SharedStringsEnglish : SharedStrings {
         You can still use the app to view prayer times, but you won't receive automatic reminders.
 
         You can always enable notifications later from the app settings.
+    """.trimIndent()
+
+    // Exact Alarm Permission Strings
+    override val exactAlarmPermissionTitle: String = "Enable Exact Alarm Permission"
+    override val exactAlarmPermissionMessage: String = """
+        Azan Munich needs permission to schedule exact alarms for precise prayer time notifications.
+
+        With this permission, you will:
+        • Receive prayer time notifications at the exact moment
+        • Never miss the exact prayer time
+        • Get accurate reminders even in power-saving mode
+
+        This permission ensures your prayer reminders are delivered precisely on time.
+    """.trimIndent()
+
+    override val exactAlarmPermissionDeniedTitle: String = "Exact Alarm Permission Not Granted"
+    override val exactAlarmPermissionDeniedMessage: String = """
+        You have chosen not to enable exact alarm permission.
+
+        Without this permission:
+        • Prayer time notifications may be delayed
+        • Reminders might not arrive at the exact time
+        • Notifications may not work reliably
+
+        You can enable this permission later from the app settings.
     """.trimIndent()
 
     override val `in`: String = "in"
@@ -190,6 +223,7 @@ internal object SharedStringsGerman : SharedStrings {
     override val cancel: String = "abbrechen"
     override val allow: String = "Erlauben"
     override val notNow: String = "Nicht jetzt"
+    override val openSettings: String = "Einstellungen öffnen"
 
     // Notification Permission Strings
     override val notificationPermissionTitle: String = "Gebetszeit-Benachrichtigungen aktivieren"
@@ -211,6 +245,31 @@ internal object SharedStringsGerman : SharedStrings {
         Sie können die App weiterhin verwenden, um Gebetszeiten anzuzeigen, erhalten jedoch keine automatischen Erinnerungen.
 
         Sie können Benachrichtigungen jederzeit später in den App-Einstellungen aktivieren.
+    """.trimIndent()
+
+    // Exact Alarm Permission Strings
+    override val exactAlarmPermissionTitle: String = "Exakte Alarmberechtigung aktivieren"
+    override val exactAlarmPermissionMessage: String = """
+        Azan München benötigt die Berechtigung, exakte Alarme für präzise Gebetszeit-Benachrichtigungen zu planen.
+
+        Mit dieser Berechtigung können Sie:
+        • Gebetszeit-Benachrichtigungen zum exakten Zeitpunkt erhalten
+        • Die genaue Gebetszeit nie verpassen
+        • Präzise Erinnerungen auch im Energiesparmodus erhalten
+
+        Diese Berechtigung stellt sicher, dass Ihre Gebetserinnerungen pünktlich zugestellt werden.
+    """.trimIndent()
+
+    override val exactAlarmPermissionDeniedTitle: String = "Exakte Alarmberechtigung nicht erteilt"
+    override val exactAlarmPermissionDeniedMessage: String = """
+        Sie haben sich entschieden, die exakte Alarmberechtigung nicht zu aktivieren.
+
+        Ohne diese Berechtigung:
+        • Gebetszeit-Benachrichtigungen können verzögert werden
+        • Erinnerungen kommen möglicherweise nicht zur exakten Zeit an
+        • Benachrichtigungen funktionieren möglicherweise nicht zuverlässig
+
+        Sie können diese Berechtigung später in den App-Einstellungen aktivieren.
     """.trimIndent()
 
     override val `in`: String = "im"

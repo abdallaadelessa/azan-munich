@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.alifwyaa.azanmunich.domain.services
 
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedDateTimeFormatter
@@ -5,7 +7,7 @@ import com.alifwyaa.azanmunich.domain.model.SharedDateModel
 import com.alifwyaa.azanmunich.domain.model.SharedTimeModel
 import com.alifwyaa.azanmunich.domain.model.SharedTimeUntil
 import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.Instant
+import kotlin.time.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
@@ -23,7 +25,6 @@ import kotlin.time.ExperimentalTime
  * @author Created by Abdullah Essa on 24.05.21.
  */
 @Suppress("TooManyFunctions")
-@OptIn(ExperimentalTime::class)
 class SharedDateTimeService(
     private val settingsService: SharedSettingsService,
     private val localizationService: SharedLocalizationService,

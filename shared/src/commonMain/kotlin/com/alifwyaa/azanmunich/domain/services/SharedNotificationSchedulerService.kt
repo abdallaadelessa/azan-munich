@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.alifwyaa.azanmunich.domain.services
 
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
@@ -24,7 +26,6 @@ import kotlin.time.ExperimentalTime
  * @author Created by Abdullah Essa on 24.05.21.
  */
 @Suppress("UnusedPrivateMember")
-@OptIn(ExperimentalTime::class)
 class SharedNotificationSchedulerService @Suppress("LongParameterList") constructor(
     private val appScope: SharedAppScope,
     private val logService: SharedLogService,
@@ -78,6 +79,10 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
      * Sync the azan time in the notifications manager
      */
     suspend fun scheduleNotifications() = withContext(SharedDispatchers.Main) {
+        localNotificationsService.notifyWidgets()
+
+        ensureActive()
+
         // Permission
         if (!localNotificationsService.isPermissionGranted()) {
             val isGranted =
@@ -148,7 +153,7 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
 
         val dateModel = dateTimeService.getToday()
 
-        val timeModel = dateTimeService.getNow().run { copy(second = second + 1) }
+        val timeModel = dateTimeService.getNow().run { copy(second = second + 5) }
 
         val sharedAppSound = settingsService.appSoundModel.appSound
 

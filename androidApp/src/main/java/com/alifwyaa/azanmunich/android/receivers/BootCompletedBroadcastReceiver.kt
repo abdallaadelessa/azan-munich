@@ -1,4 +1,4 @@
-package com.alifwyaa.azanmunich.android
+package com.alifwyaa.azanmunich.android.receivers
 
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver

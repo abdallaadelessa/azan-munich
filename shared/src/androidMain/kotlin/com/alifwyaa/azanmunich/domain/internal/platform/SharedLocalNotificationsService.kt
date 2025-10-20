@@ -17,7 +17,6 @@ import com.alifwyaa.azanmunich.domain.services.SharedLogService
 import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
 import com.alifwyaa.azanmunich.widget.AndroidWidgetsService
 import kotlin.time.DurationUnit
-import kotlin.time.ExperimentalTime
 
 
 /**
@@ -51,7 +50,6 @@ actual class SharedLocalNotificationsService actual constructor(
 
     actual suspend fun isNotificationAdded(id: String): Boolean = true
 
-    @OptIn(ExperimentalTime::class)
     actual suspend fun addNotifications(models: List<SharedNotificationModel>): Boolean {
         // Schedule Notifications
         kotlin.runCatching {
@@ -77,20 +75,15 @@ actual class SharedLocalNotificationsService actual constructor(
 
                 val futureInMillis: Long = System.currentTimeMillis() + timeFromNowInSeconds
 
-                AlarmManagerCompat.setExactAndAllowWhileIdle(
-                    alarmManager,
-                    AlarmManager.RTC_WAKEUP,
-                    futureInMillis,
-                    pendingIntent
-                )
+                if (AlarmManagerCompat.canScheduleExactAlarms(alarmManager)) {
+                    AlarmManagerCompat.setExactAndAllowWhileIdle(
+                        alarmManager,
+                        AlarmManager.RTC_WAKEUP,
+                        futureInMillis,
+                        pendingIntent
+                    )
+                }
             }
-        }.onFailure { e ->
-            logService.e(throwable = e, report = true)
-        }
-
-        // Update Widgets
-        kotlin.runCatching {
-            AndroidWidgetsService.triggerUpdate(context = appContext)
         }.onFailure { e ->
             logService.e(throwable = e, report = true)
         }
@@ -109,6 +102,15 @@ actual class SharedLocalNotificationsService actual constructor(
             logService.e(throwable = e, report = true)
         }
         return true
+    }
+
+    actual suspend fun notifyWidgets() {
+        // Update Widgets
+        kotlin.runCatching {
+            AndroidWidgetsService.triggerUpdate(context = appContext)
+        }.onFailure { e ->
+            logService.e(throwable = e, report = true)
+        }
     }
 
     //endregion

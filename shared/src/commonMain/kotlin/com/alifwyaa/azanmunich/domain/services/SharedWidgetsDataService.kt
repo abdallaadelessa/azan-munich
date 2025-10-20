@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTime::class)
+
 package com.alifwyaa.azanmunich.domain.services
 
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
@@ -230,7 +232,6 @@ class SharedWidgetsDataService(
         return timelineItemsForGivenDay
     }
 
-    @OptIn(ExperimentalTime::class)
     private fun SharedIosNextPrayerWidgetData.log() {
         if (ENABLE_LOGS.not()) return
         logService.p {
@@ -251,7 +252,6 @@ class SharedWidgetsDataService(
         }
     }
 
-    @OptIn(ExperimentalTime::class)
     private fun SharedIosDayWidgetData.log() {
         if (ENABLE_LOGS.not()) return
         logService.p {
