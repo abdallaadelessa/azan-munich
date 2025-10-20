@@ -1,5 +1,6 @@
 package com.alifwyaa.azanmunich.domain.internal.notification
 
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -30,15 +31,20 @@ class SingleNotificationBroadcastReceiver : BroadcastReceiver() {
 
             // Show notification
             kotlin.runCatching {
-                if (model.isEnabled) {
-                    showSingleNotification(context = context, model = model)
-                }
+                showNotificationIfPermitted(context = context, model = model)
             }.onFailure { error ->
                 reportError(context = context, error = error)
             }
 
         } catch (error: Throwable) {
             reportError(context = context, error = error)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun showNotificationIfPermitted(context: Context, model: SharedNotificationModel) {
+        if (model.isEnabled && NotificationUtils.isPermissionGranted(context)) {
+            showSingleNotification(context = context, model = model)
         }
     }
 

@@ -43,9 +43,11 @@ actual class SharedLocalNotificationsService actual constructor(
 
     //region SharedLocalNotificationsService
 
-    actual suspend fun isPermissionGranted(): Boolean = true
+    actual suspend fun isPermissionGranted(): Boolean =
+        NotificationUtils.isPermissionGranted(appContext)
 
-    actual suspend fun requestPermission(): Boolean = true
+    actual suspend fun requestPermission(): Boolean =
+        error("Permission request should not be handled here.")
 
     actual suspend fun isNotificationAdded(id: String): Boolean = true
 

@@ -1,27 +1,30 @@
 package com.alifwyaa.azanmunich.domain.internal.notification
 
+import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.ContentResolver
+import android.content.ContentResolver.SCHEME_ANDROID_RESOURCE
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import androidx.annotation.RequiresPermission
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import com.alifwyaa.azanmunich.shared.R
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
 import com.alifwyaa.azanmunich.domain.extensions.toNotificationSound
 import com.alifwyaa.azanmunich.domain.model.SharedNotificationModel
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppSound
 import com.alifwyaa.azanmunich.domain.services.SharedNotificationSchedulerService
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
+import com.alifwyaa.azanmunich.shared.R
 import kotlinx.serialization.json.Json
 
 /**
@@ -66,9 +69,7 @@ object NotificationUtils {
 
         SharedNotificationModel.Sound.SOUND1_FAJR,
         SharedNotificationModel.Sound.SOUND1_OTHERS ->
-            Uri.parse(
-                "${ContentResolver.SCHEME_ANDROID_RESOURCE}://${appContext.packageName}/${R.raw.azan_sound1}"
-            )
+            "${SCHEME_ANDROID_RESOURCE}://${appContext.packageName}/${R.raw.azan_sound1}".toUri()
     }
 
     //endregion
@@ -87,7 +88,7 @@ object NotificationUtils {
                 notificationManager.deleteNotificationChannel(it.id)
             }
 
-            SharedAzanType.values().forEach { azanType ->
+            SharedAzanType.entries.forEach { azanType ->
                 val channelId = SharedNotificationSchedulerService.getChannelId(
                     sharedAzanType = azanType,
                     sharedAppSound = appSound
@@ -128,6 +129,24 @@ object NotificationUtils {
 
     //region Show Notification
 
+    /**
+     * Check if notification permission is granted
+     *
+     * @param context The application context
+     * @return true if permission is granted, false otherwise
+     */
+    fun isPermissionGranted(context: Context): Boolean =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            // For Android versions below 13 (API 33), notification permission is granted by default
+            true
+        }
+
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun showSingleNotification(context: Context, model: SharedNotificationModel) {
         val notificationManager: NotificationManagerCompat = NotificationManagerCompat.from(context)
 

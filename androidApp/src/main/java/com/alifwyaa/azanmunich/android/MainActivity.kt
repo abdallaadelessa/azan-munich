@@ -39,11 +39,23 @@ class MainActivity : AppCompatActivity() {
     private val sharedLocalizationService: SharedLocalizationService
         get() = sharedApp.localizationService
 
+    private val notificationPermissionRequester = NotificationPermissionRequester()
+
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         AzanPeriodicJobScheduler.schedule(context = this)
+
+        notificationPermissionRequester.startIfNecessary(
+            activity = this,
+            onGranted = {
+                AzanPeriodicJobScheduler.schedule(context = this)
+            },
+            onDenied = {
+                AzanPeriodicJobScheduler.schedule(context = this)
+            }
+        )
 
         // This app draws behind the system bars, so we want to handle fitting system windows
         WindowCompat.setDecorFitsSystemWindows(window, false)

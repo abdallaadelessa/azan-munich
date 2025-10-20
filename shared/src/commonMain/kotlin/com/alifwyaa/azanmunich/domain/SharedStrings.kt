@@ -43,6 +43,14 @@ interface SharedStrings {
 
     val ok: String
     val cancel: String
+    val allow: String
+    val notNow: String
+
+    // Notification Permission Strings
+    val notificationPermissionTitle: String
+    val notificationPermissionMessage: String
+    val notificationPermissionDeniedTitle: String
+    val notificationPermissionDeniedMessage: String
 
     val nextPrayerWidgetAppName: String get() = "Next Prayer Widget"
     val nextPrayerWidgetAppDesc: String get() = "show the next prayer time"
@@ -103,6 +111,30 @@ internal object SharedStringsEnglish : SharedStrings {
 
     override val ok: String = "OK"
     override val cancel: String = "CANCEL"
+    override val allow: String = "Allow"
+    override val notNow: String = "Not Now"
+
+    // Notification Permission Strings
+    override val notificationPermissionTitle: String = "Enable Prayer Time Notifications"
+    override val notificationPermissionMessage: String = """
+        Azan Munich needs notification permission to remind you of prayer times.
+
+        With this permission, you will:
+        • Receive timely reminders for each prayer
+        • Stay connected to your prayer schedule
+        • Never miss a prayer time
+
+        Without this permission, you won't receive prayer time notifications.
+    """.trimIndent()
+
+    override val notificationPermissionDeniedTitle: String = "Prayer Time Notifications Disabled"
+    override val notificationPermissionDeniedMessage: String = """
+        You have chosen not to enable prayer time notifications.
+
+        You can still use the app to view prayer times, but you won't receive automatic reminders.
+
+        You can always enable notifications later from the app settings.
+    """.trimIndent()
 
     override val `in`: String = "in"
     override val at: String = "at"
@@ -156,6 +188,30 @@ internal object SharedStringsGerman : SharedStrings {
 
     override val ok: String = "ok"
     override val cancel: String = "abbrechen"
+    override val allow: String = "Erlauben"
+    override val notNow: String = "Nicht jetzt"
+
+    // Notification Permission Strings
+    override val notificationPermissionTitle: String = "Gebetszeit-Benachrichtigungen aktivieren"
+    override val notificationPermissionMessage: String = """
+        Azan München benötigt die Benachrichtigungsberechtigung, um Sie an Gebetszeiten zu erinnern.
+
+        Mit dieser Berechtigung können Sie:
+        • Rechtzeitige Erinnerungen für jedes Gebet erhalten
+        • Mit Ihrem Gebetsplan verbunden bleiben
+        • Keine Gebetszeit verpassen
+
+        Ohne diese Berechtigung erhalten Sie keine Gebetszeit-Benachrichtigungen.
+    """.trimIndent()
+
+    override val notificationPermissionDeniedTitle: String = "Gebetszeit-Benachrichtigungen deaktiviert"
+    override val notificationPermissionDeniedMessage: String = """
+        Sie haben sich entschieden, keine Gebetszeit-Benachrichtigungen zu aktivieren.
+
+        Sie können die App weiterhin verwenden, um Gebetszeiten anzuzeigen, erhalten jedoch keine automatischen Erinnerungen.
+
+        Sie können Benachrichtigungen jederzeit später in den App-Einstellungen aktivieren.
+    """.trimIndent()
 
     override val `in`: String = "im"
     override val at: String = "um"

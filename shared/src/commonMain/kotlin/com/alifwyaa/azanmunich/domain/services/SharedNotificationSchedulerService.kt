@@ -80,7 +80,8 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
     suspend fun scheduleNotifications() = withContext(SharedDispatchers.Main) {
         // Permission
         if (!localNotificationsService.isPermissionGranted()) {
-            val isGranted = localNotificationsService.requestPermission()
+            val isGranted =
+                runCatching { localNotificationsService.requestPermission() }.getOrElse { false }
             if (!isGranted) return@withContext
         }
 
@@ -138,7 +139,8 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
     @Suppress("UndocumentedPublicFunction", "MagicNumber")
     suspend fun testNotification(text: String) {
         if (!localNotificationsService.isPermissionGranted()) {
-            val isGranted = localNotificationsService.requestPermission()
+            val isGranted =
+                runCatching { localNotificationsService.requestPermission() }.getOrElse { false }
             if (!isGranted) return
         }
 
