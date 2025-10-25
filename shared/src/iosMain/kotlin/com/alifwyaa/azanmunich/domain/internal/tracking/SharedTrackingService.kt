@@ -6,7 +6,7 @@ import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 /**
  * @author Created by Abdullah Essa on 01.10.21.
  */
-actual class SharedTrackingService actual constructor(
+actual class SharedTrackingService(
     private val platformInfo: SharedPlatformInfo
 ) {
 

@@ -1,4 +1,4 @@
-package com.alifwyaa.azanmunich.android.workers
+package com.alifwyaa.azanmunich.workers
 
 import android.content.Context
 import androidx.work.Constraints
@@ -9,35 +9,39 @@ import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.alifwyaa.azanmunich.domain.SharedApp
+import com.alifwyaa.azanmunich.domain.services.SharedLogService
 import com.alifwyaa.azanmunich.domain.services.SharedNotificationSchedulerService
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
+import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
 
 /**
  * @author Created by Abdullah Essa on 16.08.21.
  */
 class AzanPeriodicJobScheduler(
-    private val appContext: Context,
+    appContext: Context,
     workerParams: WorkerParameters
-) : CoroutineWorker(appContext, workerParams) {
+) : CoroutineWorker(appContext, workerParams), KoinComponent {
+    private val schedulerService by inject<SharedNotificationSchedulerService>()
+    private val logService by inject<SharedLogService>()
+
 
     @Suppress("SwallowedException")
     override suspend fun doWork(): Result {
-        val sharedApp: SharedApp = appContext.sharedApp
         return try {
-            sharedApp.logService.m { "AzanPeriodicJobScheduler Started" }
-            sharedApp.notificationSchedulerService.startScheduleNotificationsJob()
-            sharedApp.logService.m { "AzanPeriodicJobScheduler Finished" }
+            logService.m { "AzanPeriodicJobScheduler Started" }
+            schedulerService.startScheduleNotificationsJob()
+            logService.m { "AzanPeriodicJobScheduler Finished" }
             Result.success()
         } catch (error: Throwable) {
-            sharedApp.logService.e(throwable = error, report = true)
+            logService.e(throwable = error, report = true)
             Result.failure()
         }
     }
 
 
-    companion object {
+    companion object : KoinComponent {
         private const val ID_AZAN_TIME_JOB = "ID_AZAN_TIME_JOB"
         private const val TAG_AZAN_TIME_JOB = "TAG_AZAN_TIME_JOB"
 
@@ -45,22 +49,12 @@ class AzanPeriodicJobScheduler(
          * Schedule the periodic job
          */
         fun schedule(context: Context) {
-
-            val notificationSchedulerService: SharedNotificationSchedulerService =
-                context.sharedApp.notificationSchedulerService
-
-            //========>
-
-            //notificationSchedulerService.startScheduleNotificationsJob()
-
-            //========>
-
             val workManager = WorkManager.Companion.getInstance(context)
 
             workManager.cancelAllWorkByTag(TAG_AZAN_TIME_JOB)
 
             val repeatInterval: Long =
-                notificationSchedulerService.scheduleTimeFromNowInSeconds.toLong()
+                get<SharedNotificationSchedulerService>().scheduleTimeFromNowInSeconds.toLong()
 
             val constraints: Constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)

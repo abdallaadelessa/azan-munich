@@ -8,22 +8,26 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.RemoteViews
-import com.alifwyaa.azanmunich.shared.R
-import com.alifwyaa.azanmunich.domain.SharedApp
-import com.alifwyaa.azanmunich.domain.internal.notification.NotificationUtils
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers
 import com.alifwyaa.azanmunich.domain.model.SharedResult
 import com.alifwyaa.azanmunich.domain.model.widgets.SharedAndroidNewPrayerWidgetData
 import com.alifwyaa.azanmunich.domain.services.SharedAppScope
-import com.alifwyaa.azanmunich.domain.services.SharedWidgetsDataService
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import com.alifwyaa.azanmunich.domain.services.SharedWidgetsService
+import com.alifwyaa.azanmunich.extensions.getLaunchPendingIntent
+import com.alifwyaa.azanmunich.shared.R
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /**
  * @author Created by Abdullah Essa on 29.10.21.
  */
-class NextPrayerWidget : AppWidgetProvider() {
+class NextPrayerWidget : AppWidgetProvider(), KoinComponent {
+
+    private val widgetsDataService by inject<SharedWidgetsService>()
+    private val appScope by inject<SharedAppScope>()
+
     private var loadJob: Job? = null
 
     //region AppWidgetProvider
@@ -40,10 +44,6 @@ class NextPrayerWidget : AppWidgetProvider() {
             appWidgetManager = appWidgetManager,
             appWidgetIds = appWidgetIds
         )
-
-        val sharedApp: SharedApp = context.sharedApp
-        val widgetsDataService: SharedWidgetsDataService = sharedApp.widgetsDataService
-        val appScope: SharedAppScope = sharedApp.appScope
 
         loadJob?.cancel()
         loadJob = appScope.launch(SharedDispatchers.Main) {
@@ -125,7 +125,7 @@ class NextPrayerWidget : AppWidgetProvider() {
     private fun RemoteViews.populateLoading(context: Context) {
         setOnClickPendingIntent(
             android.R.id.background,
-            NotificationUtils.getPendingIntent(context)
+            getLaunchPendingIntent(context)
         )
         setViewVisibility(R.id.vgLoading, View.VISIBLE)
         setViewVisibility(R.id.vgContent, View.INVISIBLE)
@@ -138,7 +138,7 @@ class NextPrayerWidget : AppWidgetProvider() {
     ) {
         setOnClickPendingIntent(
             android.R.id.background,
-            NotificationUtils.getPendingIntent(context)
+            getLaunchPendingIntent(context)
         )
         dayPrayer.apply {
             setTextViewText(R.id.tvPrayerName, displayName)
@@ -152,7 +152,7 @@ class NextPrayerWidget : AppWidgetProvider() {
     private fun RemoteViews.populateError(context: Context) {
         setOnClickPendingIntent(
             android.R.id.background,
-            NotificationUtils.getPendingIntent(context)
+            getLaunchPendingIntent(context)
         )
         setOnClickPendingIntent(
             R.id.btnRetry,

@@ -6,8 +6,8 @@ import com.alifwyaa.azanmunich.di.getDataModule
 import com.alifwyaa.azanmunich.di.getFeaturesModule
 import com.alifwyaa.azanmunich.di.getNotificationsModule
 import com.alifwyaa.azanmunich.di.getToolsModule
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedCrashReportingService
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedTrackingService
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedCrashReportingService
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedTrackingService
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 import com.alifwyaa.azanmunich.domain.services.SharedAppScope
 import com.alifwyaa.azanmunich.domain.services.SharedAzanService
@@ -17,7 +17,7 @@ import com.alifwyaa.azanmunich.domain.services.SharedLogService
 import com.alifwyaa.azanmunich.domain.services.SharedNotificationSchedulerService
 import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
 import com.alifwyaa.azanmunich.domain.services.SharedUserService
-import com.alifwyaa.azanmunich.domain.services.SharedWidgetsDataService
+import com.alifwyaa.azanmunich.domain.services.SharedWidgetsService
 import org.koin.core.Koin
 import org.koin.core.KoinApplication
 import org.koin.core.context.startKoin
@@ -90,7 +90,7 @@ class SharedApp(val platformInfo: SharedPlatformInfo) {
     /**
      * The widgets data service
      */
-    val widgetsDataService: SharedWidgetsDataService by koin.inject()
+    val widgetsDataService: SharedWidgetsService by koin.inject()
 
     //endregion
 

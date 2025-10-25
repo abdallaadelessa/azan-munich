@@ -34,7 +34,7 @@ import kotlin.time.ExperimentalTime
  * @author Created by Abdullah Essa on 06.06.21.
  */
 @Suppress("UndocumentedPublicFunction")
-actual class SharedLocalNotificationsService actual constructor(
+actual class SharedLocalNotificationsService(
     platformInfo: SharedPlatformInfo,
     private val dateTimeService: SharedDateTimeService,
     settingsService: SharedSettingsService,
@@ -143,23 +143,6 @@ actual class SharedLocalNotificationsService actual constructor(
     actual suspend fun cancelNotifications(ids: List<String>): Boolean = withContext(Main) {
         getNotificationCenter().removePendingNotificationRequestsWithIdentifiers(ids)
         true
-    }
-
-    actual suspend fun notifyWidgets() = withContext(Main) {
-        threadSafeSuspendCallback { completion ->
-            val callback: (List<*>?) -> Unit = { requests: List<*>? ->
-                completion(Result.success(Unit))
-            }
-
-            callback.freeze()
-
-            getNotificationCenter()
-                .getPendingNotificationRequestsWithCompletionHandler(callback)
-
-            return@threadSafeSuspendCallback {
-                // not cancelable
-            }
-        }
     }
 
     //endregion

@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.content.getSystemService
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import com.alifwyaa.azanmunich.android.extensions.sharedApp
 
 /**
  * BroadcastReceiver that listens for changes to the SCHEDULE_EXACT_ALARM permission.

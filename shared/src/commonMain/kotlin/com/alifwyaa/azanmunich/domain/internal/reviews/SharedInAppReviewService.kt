@@ -1,7 +1,7 @@
-package com.alifwyaa.azanmunich.domain.internal.platform
+package com.alifwyaa.azanmunich.domain.internal.reviews
 
-import com.alifwyaa.azanmunich.domain.services.SharedAppScope
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
+import com.alifwyaa.azanmunich.domain.services.SharedAppScope
 import com.alifwyaa.azanmunich.domain.services.SharedLogService
 
 /**

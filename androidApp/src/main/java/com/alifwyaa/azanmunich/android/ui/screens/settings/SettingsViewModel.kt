@@ -12,11 +12,10 @@ import com.alifwyaa.azanmunich.domain.model.settings.ShardAppSoundSettingsModel
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppBaseSettingsModel
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppLanguageSettingsModel
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppThemeSettingsModel
-import com.alifwyaa.azanmunich.domain.internal.platform.Screen
+import com.alifwyaa.azanmunich.domain.internal.tracking.Screen
 import com.alifwyaa.azanmunich.domain.services.SharedLocalizationService
 import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedTrackingService
-import kotlinx.coroutines.flow.collect
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedTrackingService
 import kotlinx.coroutines.launch
 
 /**

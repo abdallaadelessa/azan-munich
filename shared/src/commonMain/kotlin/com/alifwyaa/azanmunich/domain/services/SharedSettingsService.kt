@@ -2,7 +2,7 @@ package com.alifwyaa.azanmunich.domain.services
 
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedTrackingService
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedTrackingService
 import com.alifwyaa.azanmunich.domain.model.events.SharedLanguageChangedEvent
 import com.alifwyaa.azanmunich.domain.model.events.SharedNotificationsChangedEvent
 import com.alifwyaa.azanmunich.domain.model.events.SharedSettingsEvent

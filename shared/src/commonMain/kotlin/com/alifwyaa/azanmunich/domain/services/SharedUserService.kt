@@ -1,6 +1,6 @@
 package com.alifwyaa.azanmunich.domain.services
 
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedInAppReviewService
+import com.alifwyaa.azanmunich.domain.internal.reviews.SharedInAppReviewService
 
 /**
  * Manages user session tracking and in-app review requests.

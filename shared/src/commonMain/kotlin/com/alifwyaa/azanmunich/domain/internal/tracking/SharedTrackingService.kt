@@ -1,4 +1,4 @@
-package com.alifwyaa.azanmunich.domain.internal.platform
+package com.alifwyaa.azanmunich.domain.internal.tracking
 
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 

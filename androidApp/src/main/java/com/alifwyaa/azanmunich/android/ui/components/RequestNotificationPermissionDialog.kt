@@ -23,7 +23,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.core.app.ActivityCompat
 import com.alifwyaa.azanmunich.android.extensions.dialogHorizontalMargin
 import com.alifwyaa.azanmunich.domain.SharedStrings
-import com.alifwyaa.azanmunich.domain.internal.notification.NotificationUtils.isPermissionGranted
+import com.alifwyaa.azanmunich.extensions.isPostNotificationPermissionGranted
 
 /**
  * Composable function that handles notification permission requests on Android 13+ (API 33).
@@ -91,7 +91,7 @@ fun RequestNotificationPermissionDialog(
 
     // Check and request permission on first composition
     LaunchedEffect(Unit) {
-        if (isPermissionGranted(context)) {
+        if (isPostNotificationPermissionGranted(context)) {
             // Permission already granted
             onGranted()
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

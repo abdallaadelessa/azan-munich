@@ -1,8 +1,9 @@
-package com.alifwyaa.azanmunich.domain.internal.platform
+package com.alifwyaa.azanmunich.domain.internal.reviews
 
 import android.app.Activity
-import com.alifwyaa.azanmunich.domain.services.SharedAppScope
+import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
+import com.alifwyaa.azanmunich.domain.services.SharedAppScope
 import com.alifwyaa.azanmunich.domain.services.SharedLogService
 import com.google.android.play.core.ktx.launchReview
 import com.google.android.play.core.ktx.requestReview

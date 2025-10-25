@@ -12,26 +12,32 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import com.alifwyaa.azanmunich.shared.R
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
-import com.alifwyaa.azanmunich.domain.SharedApp
 import com.alifwyaa.azanmunich.domain.SharedStrings
-import com.alifwyaa.azanmunich.domain.services.SharedAppScope
-import com.alifwyaa.azanmunich.domain.internal.notification.NotificationUtils
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers
 import com.alifwyaa.azanmunich.domain.model.SharedResult
 import com.alifwyaa.azanmunich.domain.model.widgets.SharedAndroidDayWidgetData
-import com.alifwyaa.azanmunich.domain.services.SharedWidgetsDataService
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import com.alifwyaa.azanmunich.domain.services.SharedAppScope
+import com.alifwyaa.azanmunich.domain.services.SharedLocalizationService
+import com.alifwyaa.azanmunich.domain.services.SharedWidgetsService
+import com.alifwyaa.azanmunich.extensions.getLaunchPendingIntent
+import com.alifwyaa.azanmunich.shared.R
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 
 /**
  * Implementation of App Widget functionality.
  */
-class DayWidget : AppWidgetProvider() {
+class DayWidget : AppWidgetProvider(), KoinComponent {
 
+    private val widgetsDataService by inject<SharedWidgetsService>()
+    private val localizationService by inject<SharedLocalizationService>()
+    private val appScope by inject<SharedAppScope>()
+
+    private val sharedStrings: SharedStrings get() = localizationService.strings
     private var loadJob: Job? = null
 
     //region AppWidgetProvider
@@ -41,7 +47,6 @@ class DayWidget : AppWidgetProvider() {
         appWidgetManager: AppWidgetManager,
         appWidgetIds: IntArray
     ) {
-
         // Show progress view
         showProgressView(
             context = context,
@@ -49,15 +54,11 @@ class DayWidget : AppWidgetProvider() {
             appWidgetIds = appWidgetIds
         )
 
-        val sharedApp: SharedApp = context.sharedApp
-        val widgetsDataService: SharedWidgetsDataService = sharedApp.widgetsDataService
-        val appScope: SharedAppScope = sharedApp.appScope
-        val sharedStrings = sharedApp.localizationService.strings
-
         loadJob?.cancel()
         loadJob = appScope.launch(SharedDispatchers.Main) {
 
-            when (val sharedResult: SharedResult<SharedAndroidDayWidgetData> = widgetsDataService.getDayWidgetData()) {
+            when (val sharedResult: SharedResult<SharedAndroidDayWidgetData> =
+                widgetsDataService.getDayWidgetData()) {
                 is SharedResult.Success -> {
                     val data: List<SharedAndroidDayWidgetData.Item> = sharedResult.data.items
                     if (data.isNotEmpty()) {
@@ -77,6 +78,7 @@ class DayWidget : AppWidgetProvider() {
                         )
                     }
                 }
+
                 is SharedResult.Error -> showErrorView(
                     context = context,
                     appWidgetManager = appWidgetManager,
@@ -149,7 +151,7 @@ class DayWidget : AppWidgetProvider() {
     private fun RemoteViews.populateLoading(context: Context) {
         setOnClickPendingIntent(
             android.R.id.background,
-            NotificationUtils.getPendingIntent(context)
+            getLaunchPendingIntent(context),
         )
         setViewVisibility(R.id.vgLoading, View.VISIBLE)
         setViewVisibility(R.id.vgContent, View.INVISIBLE)
@@ -162,7 +164,7 @@ class DayWidget : AppWidgetProvider() {
     ) {
         setOnClickPendingIntent(
             android.R.id.background,
-            NotificationUtils.getPendingIntent(context)
+            getLaunchPendingIntent(context)
         )
         @Suppress("MagicNumber")
         dayPrayers.getOrNull(0)?.apply {
@@ -211,7 +213,7 @@ class DayWidget : AppWidgetProvider() {
     ) {
         setOnClickPendingIntent(
             android.R.id.background,
-            NotificationUtils.getPendingIntent(context)
+            getLaunchPendingIntent(context)
         )
         setOnClickPendingIntent(
             R.id.btnRetry,
@@ -252,6 +254,7 @@ class DayWidget : AppWidgetProvider() {
                 SharedAzanType.ISHA -> R.drawable.widget_day_highlight_end
                 else -> R.drawable.widget_day_highlight
             }
+
             else -> android.R.color.transparent
         }
 

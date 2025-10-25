@@ -6,8 +6,8 @@ import com.alifwyaa.azanmunich.android.ui.screens.common.BaseState
 import com.alifwyaa.azanmunich.android.ui.screens.common.BaseViewModel
 import com.alifwyaa.azanmunich.android.ui.screens.common.DataPlaceHolder
 import com.alifwyaa.azanmunich.domain.SharedStrings
-import com.alifwyaa.azanmunich.domain.internal.platform.Screen
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedTrackingService
+import com.alifwyaa.azanmunich.domain.internal.tracking.Screen
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedTrackingService
 import com.alifwyaa.azanmunich.domain.model.SharedAzanModel
 import com.alifwyaa.azanmunich.domain.model.SharedDateModel
 import com.alifwyaa.azanmunich.domain.model.SharedResult
@@ -20,7 +20,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 

@@ -1,7 +1,8 @@
-package com.alifwyaa.azanmunich.domain.internal.platform
+package com.alifwyaa.azanmunich.domain.internal.tracking
 
 import android.app.Application
 import androidx.core.graphics.toColorInt
+import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 import com.alifwyaa.azanmunich.domain.model.events.SharedLanguageChangedEvent
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppLocale
@@ -82,7 +83,7 @@ actual class SharedCrashReportingService actual constructor(
     //region Helpers
 
     private fun initFirebaseCrashlytics() {
-        Firebase.crashlytics.setCrashlyticsCollectionEnabled(platformInfo.isRelease)
+        Firebase.crashlytics.isCrashlyticsCollectionEnabled = platformInfo.isRelease
     }
 
     private fun initInstaBugSDK() {

@@ -1,6 +1,4 @@
-@file:Suppress("UnusedImports")
-
-package com.alifwyaa.azanmunich.domain.internal.platform
+package com.alifwyaa.azanmunich.domain.internal.notifications.local
 
 import com.alifwyaa.azanmunich.domain.model.SharedNotificationModel
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
@@ -23,14 +21,6 @@ expect class SharedLocalNotificationsService(
     settingsService: SharedSettingsService,
     logService: SharedLogService,
 ) {
-
-    /**
-     * Triggers widget updates on the platform.
-     *
-     * Notifies home screen widgets to refresh their data.
-     */
-    suspend fun notifyWidgets()
-
     /**
      * Checks if notification permission is granted.
      *

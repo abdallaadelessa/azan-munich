@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
@@ -91,14 +93,12 @@ kotlin {
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.core.ktx)
                 implementation(libs.coroutines.android)
+                implementation(libs.androidx.work.runtime.ktx)
                 implementation(libs.coroutines.play.services)
-                implementation(libs.firebase.firestore)
-                implementation(libs.firebase.analytics.ktx)
-                implementation(libs.firebase.crashlytics.ktx)
+                implementation(libs.bundles.firebase)
                 implementation(libs.grpc.okhttp)
                 implementation(libs.instabug)
-                implementation(libs.play.review)
-                implementation(libs.play.review.ktx)
+                implementation(libs.bundles.play.review)
             }
         }
         val androidUnitTest by getting {

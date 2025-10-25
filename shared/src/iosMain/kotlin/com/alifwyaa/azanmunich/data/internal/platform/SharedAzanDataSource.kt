@@ -13,7 +13,7 @@ import platform.Foundation.NSError
 /**
  * @author Created by Abdullah Essa on 16.05.21.
  */
-actual class SharedAzanDataSource actual constructor(
+actual class SharedAzanDataSource(
     private val parser: SharedAzanDataParser
 ) {
 

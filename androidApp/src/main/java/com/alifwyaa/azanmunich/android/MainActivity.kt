@@ -16,20 +16,20 @@ import androidx.compose.runtime.setValue
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.alifwyaa.azanmunich.android.extensions.sharedApp
 import com.alifwyaa.azanmunich.android.ui.AppRoute
 import com.alifwyaa.azanmunich.android.ui.AppRouter
 import com.alifwyaa.azanmunich.android.ui.MainNavigationGraph
 import com.alifwyaa.azanmunich.android.ui.components.RequestExactAlarmPermissionDialog
 import com.alifwyaa.azanmunich.android.ui.components.RequestNotificationPermissionDialog
 import com.alifwyaa.azanmunich.android.ui.theme.AppTheme
-import com.alifwyaa.azanmunich.android.workers.AzanPeriodicJobScheduler
 import com.alifwyaa.azanmunich.domain.SharedStrings
 import com.alifwyaa.azanmunich.domain.model.events.SharedLanguageChangedEvent
 import com.alifwyaa.azanmunich.domain.model.events.SharedThemeChangedEvent
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppTheme
 import com.alifwyaa.azanmunich.domain.services.SharedLocalizationService
 import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import com.alifwyaa.azanmunich.workers.AzanPeriodicJobScheduler
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.map
 
@@ -46,8 +46,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        AzanPeriodicJobScheduler.schedule(this)
 
         // This app draws behind the system bars, so we want to handle fitting system windows
         WindowCompat.setDecorFitsSystemWindows(window, false)

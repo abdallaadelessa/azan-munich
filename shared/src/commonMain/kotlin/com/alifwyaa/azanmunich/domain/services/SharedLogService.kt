@@ -1,6 +1,6 @@
 package com.alifwyaa.azanmunich.domain.services
 
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedCrashReportingService
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedCrashReportingService
 import com.alifwyaa.azanmunich.domain.model.SharedPlatformInfo
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.reflect.KClass

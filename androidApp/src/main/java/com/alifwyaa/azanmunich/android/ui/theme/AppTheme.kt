@@ -10,7 +10,7 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppTheme
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import com.alifwyaa.azanmunich.android.extensions.sharedApp
 
 
 private val LightThemeColors = lightColors(

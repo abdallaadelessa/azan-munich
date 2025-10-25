@@ -201,9 +201,13 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(platform(libs.firebase.bom))
 
+    // Firebase
+    implementation(libs.bundles.firebase)
+
     implementation(libs.coroutines.android)
     implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.koin.core)
 
     // Compose
     implementation(libs.bundles.compose)

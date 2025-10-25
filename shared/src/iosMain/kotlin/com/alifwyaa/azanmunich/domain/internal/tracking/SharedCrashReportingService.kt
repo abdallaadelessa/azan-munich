@@ -10,7 +10,7 @@ import com.alifwyaa.azanmunich.domain.services.SharedSettingsService
 /**
  * @author Created by Abdullah Essa on 01.10.21.
  */
-actual class SharedCrashReportingService actual constructor(
+actual class SharedCrashReportingService(
     private val platformInfo: SharedPlatformInfo,
     appScope: SharedAppScope,
     settingsService: SharedSettingsService

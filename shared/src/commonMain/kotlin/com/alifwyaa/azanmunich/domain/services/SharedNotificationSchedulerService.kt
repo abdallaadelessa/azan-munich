@@ -4,8 +4,8 @@ package com.alifwyaa.azanmunich.domain.services
 
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
 import com.alifwyaa.azanmunich.domain.extensions.toNotificationSound
+import com.alifwyaa.azanmunich.domain.internal.notifications.local.SharedLocalNotificationsService
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedDispatchers
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedLocalNotificationsService
 import com.alifwyaa.azanmunich.domain.model.SharedAzanModel
 import com.alifwyaa.azanmunich.domain.model.SharedNotificationModel
 import com.alifwyaa.azanmunich.domain.model.events.SharedNotificationsChangedEvent
@@ -40,6 +40,7 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
     private val azanService: SharedAzanService,
     private val settingsService: SharedSettingsService,
     private val localNotificationsService: SharedLocalNotificationsService,
+    private val widgetsService: SharedWidgetsService,
     preferenceService: SharedPreferenceService
 ) {
 
@@ -91,7 +92,7 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
      * Can be called directly from iOS.
      */
     suspend fun scheduleNotifications() = withContext(SharedDispatchers.Main) {
-        localNotificationsService.notifyWidgets()
+        widgetsService.notifyWidgets()
 
         ensureActive()
 

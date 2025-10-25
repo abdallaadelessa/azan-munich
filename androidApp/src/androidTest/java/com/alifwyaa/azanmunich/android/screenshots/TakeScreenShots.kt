@@ -14,7 +14,7 @@ import com.alifwyaa.azanmunich.android.ui.screens.settings.SettingsContent
 import com.alifwyaa.azanmunich.android.ui.screens.splash.SplashContent
 import com.alifwyaa.azanmunich.android.ui.theme.AppTheme
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppTheme
-import com.alifwyaa.azanmunich.extensions.sharedApp
+import com.alifwyaa.azanmunich.android.extensions.sharedApp
 import com.google.accompanist.insets.ProvideWindowInsets
 import org.junit.Rule
 import org.junit.Test

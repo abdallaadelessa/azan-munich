@@ -4,6 +4,7 @@ package com.alifwyaa.azanmunich.domain.services
 
 import com.alifwyaa.azanmunich.data.internal.model.SharedAzanType
 import com.alifwyaa.azanmunich.domain.SharedErrorCodes
+import com.alifwyaa.azanmunich.domain.internal.widgets.SharedCoreWidgetsService
 import com.alifwyaa.azanmunich.domain.model.SharedAzanModel
 import com.alifwyaa.azanmunich.domain.model.SharedDateModel
 import com.alifwyaa.azanmunich.domain.model.SharedResult
@@ -26,15 +27,23 @@ import kotlin.time.toDuration
  *
  * @author Created by Abdullah Essa on 25.02.22.
  */
-class SharedWidgetsDataService(
+class SharedWidgetsService(
     private val azanService: SharedAzanService,
     private val localizationService: SharedLocalizationService,
     private val settingsService: SharedSettingsService,
     private val dateTimeService: SharedDateTimeService,
     private val logService: SharedLogService,
+    private val coreWidgetsService: SharedCoreWidgetsService,
 ) {
 
     //region Android
+
+    /**
+     * Triggers widget updates on the platform.
+     *
+     * Notifies home screen widgets to refresh their data.
+     */
+    suspend fun notifyWidgets() = coreWidgetsService.notifyWidgets()
 
     /**
      * Generates data for Android next prayer widget.
@@ -324,7 +333,7 @@ class SharedWidgetsDataService(
 
     //endregion
 
-    companion object {
+    companion object Companion {
         private const val IOS_TIMELINE_FUTURE_DAYS = 6
         private const val IOS_NEXT_UPDATE_IN_HOURS = 24 * 1
         private const val ENABLE_LOGS = true

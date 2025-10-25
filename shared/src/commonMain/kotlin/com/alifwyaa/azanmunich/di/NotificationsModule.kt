@@ -1,6 +1,6 @@
 package com.alifwyaa.azanmunich.di
 
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedLocalNotificationsService
+import com.alifwyaa.azanmunich.domain.internal.notifications.local.SharedLocalNotificationsService
 import com.alifwyaa.azanmunich.domain.services.SharedNotificationSchedulerService
 import org.koin.dsl.module
 
@@ -27,6 +27,7 @@ fun getNotificationsModule() = module {
             settingsService = get(),
             localNotificationsService = get(),
             preferenceService = get(),
+            widgetsService = get(),
         )
     }
 }

@@ -8,7 +8,7 @@ import platform.StoreKit.SKStoreReviewController
 /**
  * @author Created by Abdullah Essa on 24.02.22.
  */
-actual class SharedInAppReviewService actual constructor(
+actual class SharedInAppReviewService(
     platformInfo: SharedPlatformInfo,
     appScope: SharedAppScope,
     logService: SharedLogService,

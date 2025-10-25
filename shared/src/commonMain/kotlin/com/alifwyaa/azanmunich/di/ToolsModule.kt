@@ -1,7 +1,9 @@
 package com.alifwyaa.azanmunich.di
 
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedCrashReportingService
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedTrackingService
+import com.alifwyaa.azanmunich.domain.internal.notifications.remote.SharedRemoteNotificationsService
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedCrashReportingService
+import com.alifwyaa.azanmunich.domain.internal.tracking.SharedTrackingService
+import com.alifwyaa.azanmunich.domain.internal.widgets.SharedCoreWidgetsService
 import com.alifwyaa.azanmunich.domain.services.SharedAppScope
 import com.alifwyaa.azanmunich.domain.services.SharedLocalizationService
 import com.alifwyaa.azanmunich.domain.services.SharedLogService
@@ -42,5 +44,20 @@ fun getToolsModule() = module {
 
     single {
         SharedPreferenceService(logService = get())
+    }
+
+    single {
+        SharedRemoteNotificationsService(
+            platformInfo = get(),
+            logService = get(),
+            schedulerService = get()
+        )
+    }
+
+    single {
+        SharedCoreWidgetsService(
+            platformInfo = get(),
+            logService = get(),
+        )
     }
 }

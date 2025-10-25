@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
-        <receiver android:name="com.alifwyaa.azanmunich.domain.internal.notification.SingleNotificationBroadcastReceiver" />
+        <receiver android:name="com.alifwyaa.azanmunich.domain.internal.notifications.local.receiver.SingleNotificationBroadcastReceiver" />
 
         <receiver
             android:name="com.alifwyaa.azanmunich.widget.DayWidget"
@@ -27,5 +27,27 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/next_prayer_widget_info" />
         </receiver>
+
+        <!-- Firebase Cloud Messaging Service -->
+        <service
+            android:name="com.alifwyaa.azanmunich.domain.internal.notifications.remote.service.AzanFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Firebase Cloud Messaging default notification channel -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="fcm_default_channel" />
+
+        <!-- Firebase Cloud Messaging default notification icon & color -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification_azan" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorBackground" />
     </application>
 </manifest>

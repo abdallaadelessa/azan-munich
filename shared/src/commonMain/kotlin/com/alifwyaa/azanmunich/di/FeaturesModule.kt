@@ -1,7 +1,7 @@
 package com.alifwyaa.azanmunich.di
 
-import com.alifwyaa.azanmunich.domain.internal.platform.SharedInAppReviewService
-import com.alifwyaa.azanmunich.domain.services.SharedWidgetsDataService
+import com.alifwyaa.azanmunich.domain.internal.reviews.SharedInAppReviewService
+import com.alifwyaa.azanmunich.domain.services.SharedWidgetsService
 import org.koin.dsl.module
 
 /**
@@ -17,12 +17,13 @@ fun getFeaturesModule() = module {
     }
 
     single {
-        SharedWidgetsDataService(
+        SharedWidgetsService(
             azanService = get(),
             localizationService = get(),
             settingsService = get(),
             dateTimeService = get(),
             logService = get(),
+            coreWidgetsService = get(),
         )
     }
 }
