@@ -3,6 +3,11 @@ package com.alifwyaa.azanmunich.domain.services
 import com.alifwyaa.azanmunich.domain.internal.platform.SharedInAppReviewService
 
 /**
+ * Manages user session tracking and in-app review requests.
+ *
+ * Tracks the number of app sessions and triggers in-app review prompts at appropriate
+ * intervals (2nd session, then every 5th session).
+ *
  * @author Created by Abdullah Essa on 24.02.22.
  */
 class SharedUserService(
@@ -27,7 +32,11 @@ class SharedUserService(
     //region Public methods
 
     /**
-     * Called when the first view is created in android and ios
+     * Called when the first view is created in Android and iOS.
+     *
+     * Increments the session count and shows in-app review if appropriate.
+     *
+     * @param view The platform-specific view object
      */
     fun onViewCreated(view: Any) {
         createNewSession()

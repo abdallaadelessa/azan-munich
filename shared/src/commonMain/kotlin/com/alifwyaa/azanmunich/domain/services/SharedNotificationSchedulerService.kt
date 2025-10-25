@@ -23,6 +23,12 @@ import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 
 /**
+ * Schedules prayer time notifications.
+ *
+ * Manages the scheduling of local notifications for prayer times up to 6 days in advance.
+ * Automatically reschedules notifications when settings change. Requests notification
+ * permissions if not granted.
+ *
  * @author Created by Abdullah Essa on 24.05.21.
  */
 @Suppress("UnusedPrivateMember")
@@ -66,7 +72,9 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
     //region Main Logic
 
     /**
-     * Start the schedule notifications job
+     * Starts or restarts the notification scheduling job.
+     *
+     * Cancels any existing job before starting a new one.
      */
     fun startScheduleNotificationsJob() {
         scheduleNotificationsJob?.cancel()
@@ -75,8 +83,12 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
     }
 
     /**
-     * Used directly from IOS
-     * Sync the azan time in the notifications manager
+     * Schedules notifications for upcoming prayer times.
+     *
+     * Requests notification permissions if needed, computes upcoming prayer times,
+     * cancels old notifications, and schedules new ones. Updates widgets afterwards.
+     *
+     * Can be called directly from iOS.
      */
     suspend fun scheduleNotifications() = withContext(SharedDispatchers.Main) {
         localNotificationsService.notifyWidgets()
@@ -141,6 +153,13 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
 
     //region Test
 
+    /**
+     * Creates a test notification for debugging purposes.
+     *
+     * Schedules a notification 5 seconds in the future with the given text.
+     *
+     * @param text The notification text to display
+     */
     @Suppress("UndocumentedPublicFunction", "MagicNumber")
     suspend fun testNotification(text: String) {
         if (!localNotificationsService.isPermissionGranted()) {
@@ -259,7 +278,14 @@ class SharedNotificationSchedulerService @Suppress("LongParameterList") construc
         private const val SCHEDULE_NOTIFICATIONS_NUM_OF_DAYS_IN_FUTURE: Int = 6
 
         /**
-         * @return the android channel id for the given values
+         * Generates a unique notification channel ID.
+         *
+         * Combines prayer type and sound setting to create a unique channel identifier
+         * for Android notification channels.
+         *
+         * @param sharedAzanType The prayer type
+         * @param sharedAppSound The notification sound setting
+         * @return Unique channel ID
          */
         fun getChannelId(sharedAzanType: SharedAzanType, sharedAppSound: SharedAppSound): String =
             "$sharedAzanType-$sharedAppSound"

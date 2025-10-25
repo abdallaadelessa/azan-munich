@@ -9,6 +9,11 @@ import com.alifwyaa.azanmunich.domain.model.SharedTimeUntil
 import com.alifwyaa.azanmunich.domain.model.settings.SharedAppLocale
 
 /**
+ * Provides localization and internationalization support.
+ *
+ * Manages localized strings and text formatting based on the current app language.
+ * Supports English and German languages.
+ *
  * @author Created by Abdullah Essa on 18.06.21.
  */
 class SharedLocalizationService(
@@ -30,7 +35,10 @@ class SharedLocalizationService(
     //region Expressions
 
     /**
-     * @return the ui name for the given [SharedAzanType]
+     * Gets the localized display name for a prayer type.
+     *
+     * @param azanType The prayer type
+     * @return Localized name of the prayer
      */
     fun getAzanDisplayName(azanType: SharedAzanType): String = when (azanType) {
         SharedAzanType.FAJR -> strings.fajr
@@ -42,7 +50,12 @@ class SharedLocalizationService(
     }
 
     /**
-     * @return the ui text for the given [SharedTimeUntil]
+     * Formats the time remaining until the next prayer.
+     *
+     * Returns a localized string with hours, minutes, and/or seconds.
+     *
+     * @param timeUntil The time remaining
+     * @return Formatted string like "in 2 hours 30 minutes"
      */
     fun getTimeUntilNextAzan(timeUntil: SharedTimeUntil): String {
         val hours: Int = timeUntil.hours
@@ -86,7 +99,10 @@ class SharedLocalizationService(
     }
 
     /**
-     * @return the notification title for the given [SharedAzanModel]
+     * Generates the notification title for a prayer time.
+     *
+     * @param model The prayer model
+     * @return Formatted notification title (e.g., "Fajr at 05:30")
      */
     fun getLocalNotificationTitle(model: SharedAzanModel): String =
         "${model.displayName} ${strings.at} ${model.displayTime}"

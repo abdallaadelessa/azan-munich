@@ -22,6 +22,11 @@ import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
 
 /**
+ * Provides date and time operations for the Azan Munich application.
+ *
+ * Handles date/time calculations, comparisons, formatting, and conversions
+ * using the CET timezone. Supports both Gregorian and Islamic (Hijri) calendars.
+ *
  * @author Created by Abdullah Essa on 24.05.21.
  */
 @Suppress("TooManyFunctions")
@@ -32,9 +37,15 @@ class SharedDateTimeService(
 
     //region Properties
 
+    /**
+     * Current time as an [Instant].
+     */
     internal val todayInstant: Instant
         get() = Clock.System.now()
 
+    /**
+     * Current date and time in the application's timezone (CET).
+     */
     val nowLocalDateTime: LocalDateTime
         get() = todayInstant.toLocalDateTime(appTimeZone)
 
@@ -43,7 +54,10 @@ class SharedDateTimeService(
     //region Checks
 
     /**
-     * @return true if [dateModel] is today otherwise false
+     * Checks if the given date is today.
+     *
+     * @param dateModel The date to check
+     * @return true if the date is today, false otherwise
      */
     fun isToday(dateModel: SharedDateModel): Boolean {
         val nowDate: LocalDate = nowLocalDateTime.date
@@ -56,7 +70,10 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return true if [dateModel] was yesterday otherwise false
+     * Checks if the given date was yesterday.
+     *
+     * @param dateModel The date to check
+     * @return true if the date was yesterday, false otherwise
      */
     fun wasYesterday(dateModel: SharedDateModel): Boolean {
         val nowDate: LocalDate = nowLocalDateTime.date
@@ -71,7 +88,10 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return true if [dateModel] is tomorrow otherwise false
+     * Checks if the given date is tomorrow.
+     *
+     * @param dateModel The date to check
+     * @return true if the date is tomorrow, false otherwise
      */
     fun isTomorrow(dateModel: SharedDateModel): Boolean {
         val nowDate: LocalDate = nowLocalDateTime.date
@@ -86,7 +106,11 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return true if the given [dateModel] and [timeModel] are after now otherwise false
+     * Checks if the given date and time are in the future.
+     *
+     * @param dateModel The date to check
+     * @param timeModel The time to check
+     * @return true if the date and time are after now, false otherwise
      */
     fun isTimeAfter(dateModel: SharedDateModel, timeModel: SharedTimeModel): Boolean {
         val nowDateTime: LocalDateTime = nowLocalDateTime
@@ -107,7 +131,11 @@ class SharedDateTimeService(
     //region Duration
 
     /**
-     * @return duration until given date and time
+     * Calculates the duration from now until the given date and time.
+     *
+     * @param dateModel The target date
+     * @param timeModel The target time
+     * @return Duration from now until the specified date and time
      */
     internal fun getDurationUntil(
         dateModel: SharedDateModel,
@@ -125,7 +153,11 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return the number of milliseconds until given date and time
+     * Calculates the time remaining until the given date and time.
+     *
+     * @param dateModel The target date
+     * @param timeModel The target time
+     * @return Time until specified date and time, broken down into hours, minutes, and seconds
      */
     fun getTimeUntil(
         dateModel: SharedDateModel,
@@ -155,7 +187,9 @@ class SharedDateTimeService(
     //region Generate Day Model
 
     /**
-     * @return now time [SharedTimeModel]
+     * Gets the current time.
+     *
+     * @return Current time as [SharedTimeModel]
      */
     fun getNow(): SharedTimeModel = nowLocalDateTime.run {
         SharedTimeModel(
@@ -166,7 +200,9 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return today's [SharedDateModel]
+     * Gets today's date.
+     *
+     * @return Today's date as [SharedDateModel]
      */
     fun getToday(): SharedDateModel = nowLocalDateTime.run {
         SharedDateModel(
@@ -177,7 +213,10 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return the [SharedDateModel] after the given [dateModel]
+     * Gets the day after the given date.
+     *
+     * @param dateModel The reference date
+     * @return The date one day after the given date
      */
     fun getDayAfter(dateModel: SharedDateModel): SharedDateModel = LocalDate(
         year = dateModel.year,
@@ -192,7 +231,10 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return the [SharedDateModel] before the given [dateModel]
+     * Gets the day before the given date.
+     *
+     * @param dateModel The reference date
+     * @return The date one day before the given date
      */
     fun getDayBefore(dateModel: SharedDateModel): SharedDateModel = LocalDate(
         year = dateModel.year,
@@ -207,7 +249,10 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return a list of [SharedDateModel] from the given [daysFromNow] including today
+     * Generates a list of dates from today to a specified number of days in the future.
+     *
+     * @param daysFromNow Number of days to generate (inclusive of today)
+     * @return List of dates from today through the specified number of future days
      */
     fun getDaysFromNow(daysFromNow: Int): List<SharedDateModel> =
         mutableListOf<LocalDateTime>().apply {
@@ -227,7 +272,12 @@ class SharedDateTimeService(
     //region Format
 
     /**
-     * @return the default formatted time
+     * Formats a time according to the specified pattern and current locale.
+     *
+     * @param dateModel The date for the time
+     * @param timeModel The time to format
+     * @param pattern The formatting pattern (e.g., "HH:mm")
+     * @return Formatted time string
      */
     fun getFormattedTime(
         dateModel: SharedDateModel,
@@ -249,7 +299,11 @@ class SharedDateTimeService(
     }
 
     /**
-     * @return the western date format for the given [dateModel]
+     * Formats a date using the Gregorian calendar.
+     *
+     * @param dateModel The date to format
+     * @param pattern The formatting pattern (e.g., "EEE, dd MMM yyyy")
+     * @return Formatted Gregorian date string
      */
     fun getWesternFormattedDate(
         dateModel: SharedDateModel,
@@ -269,7 +323,11 @@ class SharedDateTimeService(
         )
 
     /**
-     * @return the islamic date format for the given [dateModel]
+     * Formats a date using the Islamic (Hijri) calendar.
+     *
+     * @param dateModel The date to format
+     * @param pattern The formatting pattern (e.g., "dd MMMM yyyy")
+     * @return Formatted Islamic date string
      */
     fun getIslamicFormattedDate(
         dateModel: SharedDateModel,
@@ -288,7 +346,13 @@ class SharedDateTimeService(
     )
 
     /**
-     * @return the western date format for the given [dateModel]
+     * Formats a date using the Gregorian calendar with relative terms.
+     *
+     * Returns "Yesterday", "Today", or "Tomorrow" when applicable,
+     * otherwise uses the default western pattern.
+     *
+     * @param dateModel The date to format
+     * @return Formatted date string with relative terms when applicable
      */
     fun getWesternFormattedDate(dateModel: SharedDateModel): String = when {
         wasYesterday(dateModel) -> localizationService.strings.yesterday
@@ -299,7 +363,10 @@ class SharedDateTimeService(
 
 
     /**
-     * @return the islamic date format for the given [dateModel]
+     * Formats a date using the default Islamic (Hijri) calendar pattern.
+     *
+     * @param dateModel The date to format
+     * @return Formatted Islamic date string using the default pattern
      */
     fun getIslamicFormattedDate(dateModel: SharedDateModel): String =
         getIslamicFormattedDate(dateModel, DATE_ISLAMIC_PATTERN)

@@ -18,6 +18,12 @@ import kotlin.time.ExperimentalTime
 import kotlin.time.toDuration
 
 /**
+ * Generates data for home screen widgets.
+ *
+ * Provides prayer time data formatted for both Android and iOS widgets.
+ * Handles next prayer widgets and full day prayer schedule widgets with
+ * timeline generation for widget updates.
+ *
  * @author Created by Abdullah Essa on 25.02.22.
  */
 class SharedWidgetsDataService(
@@ -31,7 +37,9 @@ class SharedWidgetsDataService(
     //region Android
 
     /**
-     * @return the next prayer widget data
+     * Generates data for Android next prayer widget.
+     *
+     * @return Widget data with the next prayer name and time, or error if unavailable
      */
     suspend fun getNextPrayerWidgetData(): SharedResult<SharedAndroidNewPrayerWidgetData> {
         val nextAzan: SharedAzanModel = getNextAzanWithoutSunrise()
@@ -48,7 +56,9 @@ class SharedWidgetsDataService(
     }
 
     /**
-     * @return the day widget data
+     * Generates data for Android full-day prayer widget.
+     *
+     * @return Widget data with all prayers for the day, highlighting the next one
      */
     suspend fun getDayWidgetData(): SharedResult<SharedAndroidDayWidgetData> {
         val nextAzan: SharedAzanModel = getNextAzanWithoutSunrise()
@@ -80,7 +90,12 @@ class SharedWidgetsDataService(
     //region IOS
 
     /**
-     * @return the next prayer widget data
+     * Generates data for iOS next prayer widget with timeline.
+     *
+     * Creates a timeline of upcoming prayers for the next 6 days to enable
+     * automatic widget updates.
+     *
+     * @return Widget data with timeline entries for automatic updates
      */
     suspend fun getIosNextPrayerWidgetData(): SharedIosNextPrayerWidgetData {
         val defaultData = SharedIosNextPrayerWidgetData(
@@ -118,7 +133,12 @@ class SharedWidgetsDataService(
     }
 
     /**
-     * @return the day widget data
+     * Generates data for iOS full-day prayer widget with timeline.
+     *
+     * Creates a timeline of daily prayer schedules for the next 6 days to enable
+     * automatic widget updates with the next prayer highlighted.
+     *
+     * @return Widget data with timeline entries for automatic updates
      */
     suspend fun getIosDayWidgetData(): SharedIosDayWidgetData {
         val defaultData = SharedIosDayWidgetData(

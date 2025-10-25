@@ -9,6 +9,11 @@ import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
 /**
+ * Provides key-value storage for app preferences.
+ *
+ * Wraps the platform-specific Settings implementation and provides property delegates
+ * for type-safe preference access with automatic serialization support.
+ *
  * @author Created by Abdullah Essa on 24.02.22.
  */
 class SharedPreferenceService(
@@ -71,7 +76,13 @@ class SharedPreferenceService(
     //region Delegates
 
     /**
-     * Json delegate
+     * Creates a property delegate for JSON-serializable preferences.
+     *
+     * Automatically serializes and deserializes complex objects using kotlinx.serialization.
+     *
+     * @param key The preference key
+     * @param defaultValue The default value if no preference exists
+     * @return A read-write property delegate
      */
     @OptIn(ExperimentalSerializationApi::class)
     inline fun <reified T : Any> json(
@@ -107,7 +118,11 @@ class SharedPreferenceService(
     }
 
     /**
-     * String Delegate
+     * Creates a property delegate for string preferences.
+     *
+     * @param key The preference key
+     * @param defaultValue The default value if no preference exists
+     * @return A read-write property delegate
      */
     fun string(
         key: String,
@@ -137,7 +152,11 @@ class SharedPreferenceService(
     }
 
     /**
-     * Int Delegate
+     * Creates a property delegate for integer preferences.
+     *
+     * @param key The preference key
+     * @param defaultValue The default value if no preference exists
+     * @return A read-write property delegate
      */
     fun int(
         key: String,

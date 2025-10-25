@@ -10,6 +10,12 @@ import com.alifwyaa.azanmunich.domain.model.SharedResult
 import com.alifwyaa.azanmunich.domain.model.SharedTimeModel
 
 /**
+ * Manages Islamic prayer times (Azan) for Munich.
+ *
+ * Retrieves prayer times from the data source, converts them to domain models,
+ * and provides access to next prayer times and prayer schedules. Handles error
+ * scenarios and returns results wrapped in [SharedResult].
+ *
  * @author Created by Abdullah Essa on 16.05.21.
  */
 class SharedAzanService(
@@ -22,7 +28,11 @@ class SharedAzanService(
     //region Public Methods
 
     /**
-     * @return the next azan time
+     * Retrieves the next upcoming prayer time.
+     *
+     * Checks today's remaining prayers first, then falls back to the first prayer of tomorrow.
+     *
+     * @return [SharedResult.Success] with the next prayer, or [SharedResult.Error] if unavailable
      */
     suspend fun getNextAzan(): SharedResult<SharedAzanModel> = kotlin.runCatching {
         val today = dateTimeService.getToday()
@@ -70,7 +80,10 @@ class SharedAzanService(
     )
 
     /**
-     * @return list of azan times for the given day
+     * Retrieves all prayer times for a specific date.
+     *
+     * @param dateModel The date to retrieve prayer times for
+     * @return [SharedResult.Success] with prayer list, or [SharedResult.Error] if unavailable
      */
     suspend fun getAzanList(dateModel: SharedDateModel): SharedResult<List<SharedAzanModel>> =
         kotlin.runCatching {
@@ -100,7 +113,13 @@ class SharedAzanService(
         )
 
     /**
-     * @return list of azan times from now including today
+     * Retrieves all prayer times from now up to a specified number of days in the future.
+     *
+     * Used internally for notification scheduling. Batches requests to comply with
+     * Firestore's 10-element 'in' filter limitation.
+     *
+     * @param daysFromNow Number of days to retrieve prayer times for
+     * @return List of all prayer times within the specified range
      */
     @Suppress("MagicNumber")
     internal suspend fun getAzanList(daysFromNow: Int): List<SharedAzanModel> = dateTimeService

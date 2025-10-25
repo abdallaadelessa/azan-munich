@@ -20,6 +20,11 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 
 /**
+ * Manages all application settings and preferences.
+ *
+ * Handles language, theme, notification sound, and prayer time notification toggles.
+ * Emits events when settings change to trigger appropriate app updates.
+ *
  * @author Created by Abdullah Essa on 18.06.21.
  */
 class SharedSettingsService(
