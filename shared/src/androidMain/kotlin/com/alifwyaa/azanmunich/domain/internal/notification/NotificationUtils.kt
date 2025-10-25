@@ -1,6 +1,7 @@
 package com.alifwyaa.azanmunich.domain.internal.notification
 
 import android.Manifest
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -114,8 +115,8 @@ object NotificationUtils {
                         channelSoundUri,
                         AudioAttributes.Builder()
                             .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-                            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-                            .setLegacyStreamType(AudioManager.STREAM_NOTIFICATION)
+                            .setUsage(AudioAttributes.USAGE_ALARM)
+                            .setLegacyStreamType(AudioManager.STREAM_ALARM)
                             .build()
                     )
                 }
@@ -152,6 +153,15 @@ object NotificationUtils {
 
         val channelId: String = model.categoryId
 
+        // Verify channel exists on Android 8+ (Oreo)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val existingChannel = notificationManager.getNotificationChannel(channelId)
+            if (existingChannel == null) {
+                // Channel doesn't exist, notification won't show or play sound
+                return
+            }
+        }
+
         val activity = getPendingIntent(context)
 
         val soundUri: Uri = getNotificationSoundUriForNotification(
@@ -159,15 +169,24 @@ object NotificationUtils {
             sound = model.sound
         )
 
-        val builder: NotificationCompat.Builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_notification_azan)
-            .setContentText(model.title)
-            .setSound(soundUri, AudioManager.STREAM_NOTIFICATION)
-            .setContentIntent(
-                activity
-            )
-            .setPriority(NotificationCompat.PRIORITY_HIGH)
-            .setAutoCancel(true)
+        val builder = NotificationCompat.Builder(context, channelId).apply {
+            setSmallIcon(R.drawable.ic_notification_azan)
+            setDefaults(Notification.DEFAULT_LIGHTS)
+            setContentTitle(model.title)
+            setContentText(model.title)
+            setCategory(NotificationCompat.CATEGORY_ALARM)
+            setPriority(NotificationCompat.PRIORITY_MAX)
+            setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+
+            // Set sound and vibration for pre-Oreo devices
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+                setSound(soundUri, AudioManager.STREAM_ALARM)
+                setLights(Color.YELLOW, 500, 500)
+            }
+
+            setContentIntent(activity)
+            setAutoCancel(true)
+        }
 
         notificationManager.notify(model.id.hashCode(), builder.build())
     }
